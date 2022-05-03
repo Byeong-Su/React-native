@@ -18,8 +18,11 @@ const items = [
     { _id: 3, name: 'Hanbit' },
 ];
 
-const List = () => {
-    const _onPress = item => {};
+const List = ({ navigation }) => {
+    const _onPress = item => {
+        //화면이동+ 항목의 id와 name전달
+        navigation.navigate('Detail', { id: item._id, name: item.name });
+    };
 
     return (
         <Container>
