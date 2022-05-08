@@ -1,6 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Platform, Alert } from 'react-native';
+import * as ImagePicker from 'expo-image-picker';
+import * as Permissions from 'expo-permissions';
 import styled from 'styled-components/native';
 import propTypes from 'prop-types';
+import { MaterialIcons } from '@expo/vector-icons';
 
 const Container = styled.View`
     align-items: center;
@@ -13,22 +17,92 @@ const StyledImage = styled.Image`
     border-radius: ${({ rounded }) => (rounded ? 50 : 0)}px;
 `;
 
-const Image = ({ url, imageStyle, rounded }) => {
-    return (
-        <Container>
-          <StyledImage source={{ uri: url }} style={imageStyle} rounded={rounded} />
-        </Container>
-    );
+const ButtonContainer = styled.TouchableOpacity`
+  background-color: ${({ theme }) => theme.imageButtonBackground};
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 30px;
+  height: 30px;
+  border-radius: 15px;
+  justify-content: center;
+  align-items: center;
+`;
+const ButtonIcon = styled(MaterialIcons).attrs({
+  name: 'photo-camera',
+  size: 22,
+})`
+  color: ${({ theme }) => theme.imageButtonIcon};
+`;
+//사진 변경하기 버튼용 컴포넌트
+const PhotoButton = ({ onPress }) => {
+  return (
+    <ButtonContainer onPress={onPress}>
+      <ButtonIcon />
+    </ButtonContainer>
+  );
 };
+
+const Image = ({ url, imageStyle, rounded, showButton, onChangeImage }) => {
+    useEffect(() => {
+      (async () => {
+        //ios는 권한 요청과정 필요
+        try {
+          if (Platform.OS !== 'ios') {
+            const { status } = await Permissions.askAsync(
+                Permissions.CAMERA_ROLL
+            );
+            if (status !== 'granted') {
+              Alert.alert(
+                'Photo Permission',
+                'Please turn on the camera roll permissions.'
+              );
+            }
+          }
+        } catch (e) {
+          Alert.alert('Photo Permission Error', e.message);
+        }
+      })();
+    }, []);
+  
+    const _handleEditButton = async () => {
+      try {
+        const result = await ImagePicker.launchImageLibraryAsync({
+          mediaTypes: ImagePicker.MediaTypeOptions.Images,
+          allowsEditing: true,
+          aspect: [1, 1],
+          quality: 1,
+        });
+  
+        if (!result.cancelled) {
+          onChangeImage(result.uri);
+        }
+      } catch (e) {
+        Alert.alert('Photo Error', e.message);
+      }
+    };
+  
+    return (
+      <Container>
+        <StyledImage source={{ uri: url }} style={imageStyle} rounded={rounded} />
+        {showButton && <PhotoButton onPress={_handleEditButton} />}
+      </Container>
+    );
+  };
 
 Image.defaultProps = {
     rounded: false,
+    showButton: false,
+    onChangeImage: () => {},
 }
 
 Image.propTypes = {
     uri: propTypes.string,
     imageStyle: propTypes.object,
     rounded: propTypes.bool,
+    //props로 전달되는 showButton의 값에 따라 렌더링 여부 결정
+    showButton: propTypes.bool,
+    onChangeImage: propTypes.func,
 };
 
 export default Image;

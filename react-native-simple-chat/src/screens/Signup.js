@@ -6,7 +6,6 @@ import { validateEmail, removeWhitespace } from '../utils/common';
 import { images } from '../utils/images';
 
 const Container = styled.View`
-    flex: 1;
     justify-content: center;
     align-items: center;
     background-color: ${({ theme }) => theme.background};
@@ -70,8 +69,10 @@ const Signup = () => {
         <Image
           rounded
           url={photoUrl}
-          //showButton
-          //onChangeImage={url => setPhotoUrl(url)}
+          //컴포넌트 버튼 렌더링 되도록
+          showButton
+          //선택된 사진 uri를 파라미터로 전달
+          onChangeImage={url => setPhotoUrl(url)}
         />
         <Input
           label="Name"
