@@ -1,15 +1,19 @@
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, useRef, useEffect, useContext } from 'react';
+import { ProgressContext, UserContext } from '../contexts';
 import styled from 'styled-components/native';
 import { Image, Input, Button } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { images } from '../utils/images';
+import { Alert } from 'react-native';
+import { signup } from '../utils/firebase';
 
 const Container = styled.View`
-    justify-content: center;
-    align-items: center;
-    background-color: ${({ theme }) => theme.background};
-    padding: 40px 20px;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ theme }) => theme.background};
+  padding: 40px 20px;
 `;
 const ErrorText = styled.Text`
   align-items: flex-start;
@@ -21,51 +25,66 @@ const ErrorText = styled.Text`
 `;
 
 const Signup = () => {
-    const [photoUrl, setPhotoUrl] = useState(images.photo);
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
-    const [passwordConfirm, setPasswordConfirm] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
-    const [disabled, setDisabled] = useState(true);
-    
-    const emailRef = useRef();
-    const passwordRef = useRef();
-    const passwordConfirmRef = useRef();
+  const { dispatch } = useContext(UserContext);
+  const { spinner } = useContext(ProgressContext);
 
-    const didMountRef = useRef();
+  const [photoUrl, setPhotoUrl] = useState(images.photo);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [passwordConfirm, setPasswordConfirm] = useState('');
+  const [errorMessage, setErrorMessage] = useState('');
+  const [disabled, setDisabled] = useState(true);
 
-    useEffect(() => {
-      if (didMountRef.current) {
-        let _errorMessage = '';
-        if (!name) {
-            _errorMessage = 'Please enter your name.';
-        } else if (!validateEmail(email)) {
-            _errorMessage = 'Please verify your email.';
-        } else if (password.length < 6) {
-            _errorMessage = 'The password must contain 6 characters at least.';
-        } else if (password !== passwordConfirm) {
-            _errorMessage = 'Passwords need to match.';
-        } else {
-            _errorMessage = '';
-        }
-        setErrorMessage(_errorMessage);
+  const emailRef = useRef();
+  const passwordRef = useRef();
+  const passwordConfirmRef = useRef();
+
+  const didMountRef = useRef();
+
+  useEffect(() => {
+    if (didMountRef.current) {
+      let _errorMessage = '';
+      if (!name) {
+        _errorMessage = 'Please enter your name.';
+      } else if (!validateEmail(email)) {
+        _errorMessage = 'Please verify your email.';
+      } else if (password.length < 6) {
+        _errorMessage = 'The password must contain 6 characters at least.';
+      } else if (password !== passwordConfirm) {
+        _errorMessage = 'Passwords need to match.';
       } else {
-        didMountRef.current = true;
+        _errorMessage = '';
       }
-    }, [name, email, password, passwordConfirm]);
-    
-      useEffect(() => {
-        setDisabled(
-          !(name && email && password && passwordConfirm && !errorMessage)
-        );
-      }, [name, email, password, passwordConfirm, errorMessage]);
-    
-      const _handleSignupButtonPress = () => {};
+      setErrorMessage(_errorMessage);
+    } else {
+      didMountRef.current = true;
+    }
+  }, [name, email, password, passwordConfirm]);
 
-    return (
-      <KeyboardAwareScrollView extraScrollHeight={20}>
-        <Container>
+  useEffect(() => {
+    setDisabled(
+      !(name && email && password && passwordConfirm && !errorMessage)
+    );
+  }, [name, email, password, passwordConfirm, errorMessage]);
+
+  const _handleSignupButtonPress = async () => {
+    try {
+      //login 함수를 호출하기 전에 Spinner 컴포넌트 렌더링
+      spinner.start();
+      const user = await signup({ email, password, name, photoUrl });
+      //로그인 성공하면 UserContext의 dispatch 함수를 이용해 user 상태가 인증된 사용자의 정보로 변경
+      dispatch(user);
+    } catch (e) {
+      Alert.alert('Signup Error', e.message);
+    } finally {
+      //성공여부 관계없이 작업 완료되면 렌더링 되지않게 상태 변경
+      spinner.stop();
+    }
+  };
+  return (
+    <KeyboardAwareScrollView extraScrollHeight={20}>
+      <Container>
         <Image
           rounded
           url={photoUrl}
@@ -121,9 +140,9 @@ const Signup = () => {
           onPress={_handleSignupButtonPress}
           disabled={disabled}
         />
-        </Container>
-      </KeyboardAwareScrollView>
-    );
+      </Container>
+    </KeyboardAwareScrollView>
+  );
 };
 
 export default Signup;
