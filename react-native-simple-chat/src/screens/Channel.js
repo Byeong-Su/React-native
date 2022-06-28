@@ -54,6 +54,7 @@ const Channel = ({ navigation, route }) => {
     const docRef = doc(db, 'channels', route.params.id);
     const collectionQuery = query(
       collection(db, `${docRef.path}/messages`),
+      //최신데이터부터 받아오기 위해 내림차순 정렬
       orderBy('createdAt', 'desc')
     );
     const unsubscribe = onSnapshot(collectionQuery, snapshot => {

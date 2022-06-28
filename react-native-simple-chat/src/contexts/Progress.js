@@ -7,7 +7,9 @@ const ProgressContext = createContext({
 });
 
 const ProgressProvider = ({ children }) => {
-  const [inProgress, setInProgress] = useState(false);
+  //Spinner 컴포넌트의 렌더링 상태를 관리할 상태 변수
+  const [inProgress, setInProgress] = useState(false);  
+  //상태를 변경할 수 있는 함수
   const spinner = {
     start: () => setInProgress(true),
     stop: () => setInProgress(false),

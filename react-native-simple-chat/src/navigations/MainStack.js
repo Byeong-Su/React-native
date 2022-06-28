@@ -11,6 +11,7 @@ const MainStack = () => {
 
   return (
     <Stack.Navigator
+      //MainTab 내비게이션을 MainStack 내비게이션 첫 화면으로 렌더링
       initialRouteName="Main"
       screenOptions={{
         headerTitleAlign: 'center',

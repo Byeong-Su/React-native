@@ -44,6 +44,7 @@ const ChannelCreation = ({ navigation }) => {
     try {
       spinner.start();
       const id = await createChannel({ title, description });
+      //replace이용해 채널생성화면 제거하고, 생성된 채널 화면으로 이동
       navigation.replace('Channel', { id, title });
     } catch (e) {
       Alert.alert('Creation Error', e.message);

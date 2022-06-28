@@ -24,6 +24,7 @@ const cacheImages = images => {
 const cacheFonts = fonts => {
   return fonts.map(font => Font.loadAsync(font));
 };
+
 const App = () => {
   const [isReady, setIsReady] = useState(false);
 
