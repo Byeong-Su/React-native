@@ -104,7 +104,7 @@ const Login = ({ navigation }) => {
       />
       <Button
         title="Sign up with email"
-        onPress={() => navigation.navigate('List')}
+        onPress={() => navigation.navigate('Signup')}
         isFilled={false}
       />
     </Container>

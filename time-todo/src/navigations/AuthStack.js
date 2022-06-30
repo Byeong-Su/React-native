@@ -1,15 +1,15 @@
-import React from 'react';
+/*import React, { useContext } from 'react';
+import { ThemeContext } from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import Login from '../screens/Login';
-
-import List from '../screens/List';
+import { Login, List } from '../screens';
 
 const Stack = createStackNavigator();
 
 const AuthStack = () => {
-  //const theme = useContext(ThemeContext);
+  const theme = useContext(ThemeContext);
   return (
-    <Stack.Navigator initialRouteName="Login" >
+    <Stack.Navigator
+      initialRouteName="Login" >
       <Stack.Screen name="Login" component={Login} />
 
       <Stack.Screen name="List" component={List} />
@@ -18,17 +18,13 @@ const AuthStack = () => {
   );
 };
 
-export default AuthStack;
+export default AuthStack;*/
 
 //인증전 렌더링될 화면들
-/*import React, { useContext } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
-//import { Login, Signup } from '../screens';
-
-import Login from '../screens/Login';
-
-import List from '../screens/List';
+import { Login, Signup } from '../screens';
 
 const Stack = createStackNavigator();
 
@@ -37,11 +33,11 @@ const AuthStack = () => {
   return (
     <Stack.Navigator
       initialRouteName="Login"
-      screenOptions={{
+      /*screenOptions={{
         headerTitleAlign: 'center',
         cardStyle: { backgroundColor: theme.background },
         headerTintColor: theme.headerTintColor,
-      }}
+      }}*/
     >
       <Stack.Screen
         name="Login"
@@ -50,10 +46,10 @@ const AuthStack = () => {
         options={{ headerShown: false }}
       />
 
-      <Stack.Screen name="List" component={List} />
+      <Stack.Screen name="Signup" component={Signup} />
 
     </Stack.Navigator>
   );
 };
 
-export default AuthStack;*/
+export default AuthStack;
