@@ -1,5 +1,5 @@
 import Login from './Login';
 import Signup from './Signup';
-import List from './List';
+import Todo from './Todo';
 
-export { Login, Signup, List };
+export { Login, Signup, Todo };

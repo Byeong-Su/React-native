@@ -45,9 +45,7 @@ const AuthStack = () => {
         //헤더 렌더링x
         options={{ headerShown: false }}
       />
-
       <Stack.Screen name="Signup" component={Signup} />
-
     </Stack.Navigator>
   );
 };
