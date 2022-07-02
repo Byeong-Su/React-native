@@ -1,25 +1,3 @@
-/*import React from 'react';
-import styled from 'styled-components/native';
-import { NavigationContainer } from '@react-navigation/native';
-import StackNavigation from './navigation/AuthStack';
-
-const Container = styled.View`
-  flex: 1;
-  background-color: #ffffff;
-  justify-content: center;
-  align-items: center;
-`;
-
-const App = () => {
-  return (
-    <NavigationContainer>
-      <StackNavigation />
-    </NavigationContainer>
-  );
-};
-
-export default App;*/
-
 import React, { useState } from 'react';
 import { StatusBar, Image } from 'react-native';
 import AppLoading from 'expo-app-loading';

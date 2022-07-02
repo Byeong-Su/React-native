@@ -2,7 +2,7 @@ import React from 'react';
 import { TouchableOpacity } from 'react-native';
 import styled from 'styled-components/native';
 import PropTypes from 'prop-types';
-import { images } from '../images';
+import { images } from '../utils/images';
 
 const Icon = styled.Image`
   tint-color: ${({ theme, completed }) =>

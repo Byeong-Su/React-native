@@ -1,16 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useState } from 'react';
 import { StatusBar, Dimensions } from 'react-native';
-import styled, { ThemeProvider } from 'styled-components/native';
+import styled from 'styled-components/native';
 import { theme } from '../theme';
-import { Button, Input, Task } from '../components';
-import { singOut } from '../utils/firebase';
-import { UserContext } from '../contexts';
+import { Input } from '../components';
+import Task from '../components/Task';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const Container = styled.SafeAreaView`
+const Container = styled.View`
   flex: 1;
-  background-color: ${({ theme }) => theme.background};
+  justify-content: center;
   align-items: center;
-  justify-content: flex-start;
 `;
 const Title = styled.Text`
   font-size: 40px;
@@ -19,27 +18,93 @@ const Title = styled.Text`
   align-self: flex-start;
   margin: 20px;
 `;
+const StyledText = styled.Text`
+  font-size: 30px;
+  margin-bottom: 10px;
+`;
 const List = styled.ScrollView`
   flex: 1;
   width: ${({ width }) => width - 40}px;
 `;
 
 const Todo = () => {
-  const { dispatch } = useContext(UserContext);
+  const width = Dimensions.get('window').width;
 
-  const _handleLogoutButtonPress = async () => {
+  const [isReady, setIsReady] = useState(false);
+  const [newTask, setNewTask] = useState('');
+  const [tasks, setTasks] = useState({});
+
+  const _saveTasks = async tasks => {
     try {
-      await singOut();
+      await AsyncStorage.setItem('tasks', JSON.stringify(tasks));
+      setTasks(tasks);
     } catch (e) {
-      console.log('[Profile] logout: ', e.message);
-    } finally {
-      dispatch({});
+      console.error(e);
     }
+  };
+  const _loadTasks = async () => {
+    const loadedTasks = await AsyncStorage.getItem('tasks');
+    setTasks(JSON.parse(loadedTasks || '{}'));
+  };
+
+  const _addTask = () => {
+    const ID = Date.now().toString();
+    const newTaskObject = {
+      [ID]: { id: ID, text: newTask, completed: false },
+    };
+    setNewTask('');
+    _saveTasks({ ...tasks, ...newTaskObject });
+  };
+  const _deleteTask = id => {
+    const currentTasks = Object.assign({}, tasks);
+    delete currentTasks[id];
+    _saveTasks(currentTasks);
+  };
+  const _toggleTask = id => {
+    const currentTasks = Object.assign({}, tasks);
+    currentTasks[id]['completed'] = !currentTasks[id]['completed'];
+    _saveTasks(currentTasks);
+  };
+  const _updateTask = item => {
+    const currentTasks = Object.assign({}, tasks);
+    currentTasks[item.id] = item;
+    _saveTasks(currentTasks);
+  };
+
+  const _handleTextChange = text => {
+    setNewTask(text);
+  };
+  const _onBlur = () => {
+    setNewTask('');
   };
 
   return (
     <Container>
-      <Button title="signout" onPress={_handleLogoutButtonPress} />
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={theme.background} // Android only
+      />
+      <Title>TODO List</Title>
+      <Input
+        placeholder="+ Add a Task"
+        value={newTask}
+        onChangeText={_handleTextChange}
+        onSubmitEditing={_addTask}
+        onBlur={_onBlur}
+      />
+      <List width={width}>
+          {Object.values(tasks)
+            .reverse()
+            .map(item => (
+              <Task
+                key={item.id}
+                item={item}
+                deleteTask={_deleteTask}
+                toggleTask={_toggleTask}
+                updateTask={_updateTask}
+              />
+            ))}
+      </List>
     </Container>
   );
 };
