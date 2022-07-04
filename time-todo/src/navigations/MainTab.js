@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { CalendarView, Todo, Profile } from '../screens';
+import { CalendarView, Todo, Profile, Timer } from '../screens';
 import { MaterialIcons } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
 import { UserContext } from '../contexts';
@@ -87,6 +87,17 @@ const MainTab = ({ navigation, route }) => {
       <Tab.Screen
         name="Profile"
         component={Profile}
+        options={{
+          tabBarIcon: ({ focused }) =>
+            TabBarIcon({
+              focused,
+              name: focused ? 'person' : 'person-outline',
+            }),
+        }}
+      />
+      <Tab.Screen
+        name="Timer"
+        component={Timer}
         options={{
           tabBarIcon: ({ focused }) =>
             TabBarIcon({

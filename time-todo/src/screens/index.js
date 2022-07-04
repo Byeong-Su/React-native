@@ -4,4 +4,6 @@ import Todo from './Todo';
 import CalendarView from './CalendarView';
 import Profile from './Profile';
 
-export { Login, Signup, Todo, CalendarView, Profile };
+import Timer from './Timer';
+
+export { Login, Signup, Todo, CalendarView, Profile, Timer };
