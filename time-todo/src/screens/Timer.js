@@ -1,7 +1,33 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
 import { Button } from '../components';
+import styled from 'styled-components/native';
 //import { TouchableOpacity } from 'react-native-gesture-handler';
+
+const Container = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: ${({ theme }) => theme.background};
+  padding: 40px 20px;
+`;
+const Text = styled.Text`
+  font-size: 50px;
+  align-items: center;
+  width: 100%;
+  height: 20px;
+  margin-bottom: 10px;
+  line-height: 20px;
+  color: ${({ theme }) => theme.Text};
+`;
+/*
+const styles = StyleSheet.create({
+  container: {
+    alignSelf: 'center'
+  },
+  text: {
+    fontSize: 50,
+  }
+})*/
 
 const Timer = () => {
   const [timer, setTimer] = useState(0)
@@ -36,8 +62,8 @@ const Timer = () => {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.text}>{formatTime()}</Text>
+    <Container>
+      <Text>{formatTime()}</Text>
       <Button title="Start/Stop" onPress={handleStart}></Button>
       <Button title="Reset" onPress={handleReset}></Button>
       {/*
@@ -48,17 +74,8 @@ const Timer = () => {
         <Text style={{ fontSize: 30 }}>Reset</Text>
       </TouchableOpacity> 
       */}     
-    </View>
+    </Container>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    alignSelf: 'center'
-  },
-  text: {
-    fontSize: 50,
-  }
-})
 
 export default Timer;
