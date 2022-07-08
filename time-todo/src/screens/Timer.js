@@ -44,10 +44,10 @@ const Timer = () => {
       <TouchableOpacity onPress={handleStart}>
         <Text style={{ fontSize: 30 }}>{!isActive ? "Start" : "Stop"}</Text>
       </TouchableOpacity>
-      */}
       <TouchableOpacity onPress={handleReset}>
         <Text style={{ fontSize: 30 }}>Reset</Text>
-      </TouchableOpacity>      
+      </TouchableOpacity> 
+      */}     
     </View>
   )
 }

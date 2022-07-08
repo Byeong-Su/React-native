@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StatusBar, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { theme } from '../theme';
-import { Input } from '../components';
+import { Input, Button } from '../components';
 import Task from '../components/Task';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -33,6 +33,7 @@ const Todo = () => {
   const [isReady, setIsReady] = useState(false);
   const [newTask, setNewTask] = useState('');
   const [tasks, setTasks] = useState({});
+  const [show, setShow] = useState(false);
 
   const _saveTasks = async tasks => {
     try {
@@ -76,6 +77,7 @@ const Todo = () => {
   };
   const _onBlur = () => {
     setNewTask('');
+    setShow(false);
   };
 
   return (
@@ -84,14 +86,14 @@ const Todo = () => {
         barStyle="light-content"
         backgroundColor={theme.background} // Android only
       />
-      <Title>TODO List</Title>
-      <Input
+      <Title>TODO List</Title>  
+      {show && <Input
         placeholder="+ Add a Task"
         value={newTask}
         onChangeText={_handleTextChange}
         onSubmitEditing={_addTask}
         onBlur={_onBlur}
-      />
+      />}    
       <List width={width}>
           {Object.values(tasks)
             .reverse()
@@ -105,6 +107,10 @@ const Todo = () => {
               />
             ))}
       </List>
+      <Button
+        title="+"
+        onPress={() => setShow(true)}
+      />
     </Container>
   );
 };
