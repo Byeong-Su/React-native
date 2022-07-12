@@ -7,7 +7,7 @@ const Container = styled.TouchableOpacity`
   align-items: center;
   border-radius: 40px;
   width: 100px;
-  padding: 100px;
+  padding-left: 100px;
   opacity: ${({ disabled }) => (disabled ? 0.5 : 1)};
 `;
 const Title = styled.Text`
