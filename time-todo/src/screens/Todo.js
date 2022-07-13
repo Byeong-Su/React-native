@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StatusBar, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { theme } from '../theme';
-import { Input, Button } from '../components';
+import { Input, circleButton } from '../components';
 import Task from '../components/Task';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -107,10 +107,12 @@ const Todo = () => {
               />
             ))}
       </List>
-      <Button
-        title="+"
+      {/*
+      <circleButton
+        title="+button"
         onPress={() => setShow(true)}
       />
+      */}
     </Container>
   );
 };
