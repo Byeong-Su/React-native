@@ -106,13 +106,11 @@ const Todo = () => {
                 updateTask={_updateTask}
               />
             ))}
-      </List>
-      {/*
-      <circleButton
+      </List>      
+      <Button
         title="+button"
         onPress={() => setShow(true)}
       />
-      */}
     </Container>
   );
 };
