@@ -108,7 +108,7 @@ const Todo = () => {
             ))}
       </List>      
       <Button
-        title="+button"
+        title="+"
         onPress={() => setShow(true)}
       />
     </Container>
