@@ -109,7 +109,7 @@ const Todo = () => {
       </List>      
       <Button
         title="+"
-        onPress={() => setShow(false)}
+        onPress={() => setShow(true)}
       />
     </Container>
   );
