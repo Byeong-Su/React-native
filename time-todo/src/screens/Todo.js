@@ -27,6 +27,12 @@ const List = styled.ScrollView`
   width: ${({ width }) => width - 40}px;
 `;
 
+const styles = StyleSheet.create({
+  Button: {
+    alignSelf: 'right'
+  }
+})
+
 const Todo = () => {
   const width = Dimensions.get('window').width;
 
@@ -108,6 +114,7 @@ const Todo = () => {
             ))}
       </List>      
       <Button
+        style={{ width: 30 }}
         title="+"
         onPress={() => setShow(true)}
       />
