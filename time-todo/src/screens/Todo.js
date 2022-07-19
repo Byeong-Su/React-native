@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StatusBar, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { theme } from '../theme';
-import { Input, circleButton } from '../components';
+import { Input } from '../components';
 import Task from '../components/Task';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -25,6 +25,12 @@ const StyledText = styled.Text`
 const List = styled.ScrollView`
   flex: 1;
   width: ${({ width }) => width - 40}px;
+`;
+const RowContainer = styled.View`
+  flex: row;
+  justify-content: flex-end;
+  width: 50px;
+  height: 50px;
 `;
 
 const styles = StyleSheet.create({
@@ -112,12 +118,7 @@ const Todo = () => {
                 updateTask={_updateTask}
               />
             ))}
-      </List>      
-      <Button
-        style={{ width: 30 }}
-        title="+"
-        onPress={() => setShow(true)}
-      />
+      </List>
     </Container>
   );
 };
