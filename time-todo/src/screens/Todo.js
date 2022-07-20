@@ -26,12 +26,6 @@ const List = styled.ScrollView`
   flex: 1;
   width: ${({ width }) => width - 40}px;
 `;
-const RowContainer = styled.View`
-  flex: row;
-  justify-content: flex-end;
-  width: 50px;
-  height: 50px;
-`;
 
 const styles = StyleSheet.create({
   Button: {
@@ -99,13 +93,13 @@ const Todo = () => {
         backgroundColor={theme.background} // Android only
       />
       <Title>TODO List</Title>  
-      {show && <Input
+      <Input
         placeholder="+ Add a Task"
         value={newTask}
         onChangeText={_handleTextChange}
         onSubmitEditing={_addTask}
         onBlur={_onBlur}
-      />}    
+      />
       <List width={width}>
           {Object.values(tasks)
             .reverse()
