@@ -27,19 +27,12 @@ const List = styled.ScrollView`
   width: ${({ width }) => width - 40}px;
 `;
 
-const styles = StyleSheet.create({
-  Button: {
-    alignSelf: 'right'
-  }
-})
-
 const Todo = () => {
   const width = Dimensions.get('window').width;
 
   const [isReady, setIsReady] = useState(false);
   const [newTask, setNewTask] = useState('');
   const [tasks, setTasks] = useState({});
-  const [show, setShow] = useState(false);
 
   const _saveTasks = async tasks => {
     try {
@@ -83,36 +76,35 @@ const Todo = () => {
   };
   const _onBlur = () => {
     setNewTask('');
-    setShow(false);
   };
 
   return (
     <Container>
-      <StatusBar
-        barStyle="light-content"
-        backgroundColor={theme.background} // Android only
-      />
-      <Title>TODO List</Title>  
-      <Input
-        placeholder="+ Add a Task"
-        value={newTask}
-        onChangeText={_handleTextChange}
-        onSubmitEditing={_addTask}
-        onBlur={_onBlur}
-      />
-      <List width={width}>
-          {Object.values(tasks)
-            .reverse()
-            .map(item => (
-              <Task
-                key={item.id}
-                item={item}
-                deleteTask={_deleteTask}
-                toggleTask={_toggleTask}
-                updateTask={_updateTask}
-              />
-            ))}
-      </List>
+    <StatusBar
+      barStyle="light-content"
+      backgroundColor={theme.background} // Android only
+    />
+    <Title>TODO List</Title>
+    <Input
+      placeholder="+ Add a Task"
+      value={newTask}
+      onChangeText={_handleTextChange}
+      onSubmitEditing={_addTask}
+      onBlur={_onBlur}
+    />
+    <List width={width}>
+        {Object.values(tasks)
+          .reverse()
+          .map(item => (
+            <Task
+              key={item.id}
+              item={item}
+              deleteTask={_deleteTask}
+              toggleTask={_toggleTask}
+              updateTask={_updateTask}
+            />
+          ))}
+    </List>
     </Container>
   );
 };
