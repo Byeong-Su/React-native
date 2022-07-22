@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StatusBar, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { theme } from '../theme';
-import { Input } from '../components';
+import { Input, Button } from '../components';
 import Task from '../components/Task';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -10,6 +10,10 @@ const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+`;
+const ButtonContainer = styled.View`
+  flex: row;
+  justify-content: flex-end;
 `;
 const Title = styled.Text`
   font-size: 40px;
@@ -80,31 +84,34 @@ const Todo = () => {
 
   return (
     <Container>
-    <StatusBar
-      barStyle="light-content"
-      backgroundColor={theme.background} // Android only
-    />
-    <Title>TODO List</Title>
-    <Input
-      placeholder="+ Add a Task"
-      value={newTask}
-      onChangeText={_handleTextChange}
-      onSubmitEditing={_addTask}
-      onBlur={_onBlur}
-    />
-    <List width={width}>
-        {Object.values(tasks)
-          .reverse()
-          .map(item => (
-            <Task
-              key={item.id}
-              item={item}
-              deleteTask={_deleteTask}
-              toggleTask={_toggleTask}
-              updateTask={_updateTask}
-            />
-          ))}
-    </List>
+      <StatusBar
+        barStyle="light-content"
+        backgroundColor={theme.background} // Android only
+      />
+      <Title>TODO List</Title>
+      <Input
+        placeholder="+ Add a Task"
+        value={newTask}
+        onChangeText={_handleTextChange}
+        onSubmitEditing={_addTask}
+        onBlur={_onBlur}
+      />
+      <List width={width}>
+          {Object.values(tasks)
+            .reverse()
+            .map(item => (
+              <Task
+                key={item.id}
+                item={item}
+                deleteTask={_deleteTask}
+                toggleTask={_toggleTask}
+                updateTask={_updateTask}
+              />
+            ))}
+      </List>
+      <ButtonContainer>
+        <Button title="+" onPress={''}></Button>
+      </ButtonContainer>
     </Container>
   );
 };
