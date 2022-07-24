@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { StatusBar, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { theme } from '../theme';
-import { Input, Button } from '../components';
+import { Input, Text } from '../components';
 import Task from '../components/Task';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -10,10 +10,6 @@ const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
-`;
-const ButtonContainer = styled.View`
-  flex: row;
-  justify-content: flex-end;
 `;
 const Title = styled.Text`
   font-size: 40px;
@@ -109,9 +105,9 @@ const Todo = () => {
               />
             ))}
       </List>
-      <ButtonContainer>
-        <Button title="+" onPress={''}></Button>
-      </ButtonContainer>
+      <Container>
+        <Text>text</Text>
+      </Container>
     </Container>
   );
 };
