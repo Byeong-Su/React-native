@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { StatusBar, Dimensions } from 'react-native';
+import { StatusBar, Dimensions, Button } from 'react-native';
 import styled from 'styled-components/native';
 import { theme } from '../theme';
-import { Input, Text } from '../components';
+import { Input } from '../components';
 import Task from '../components/Task';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -10,6 +10,14 @@ const Container = styled.View`
   flex: 1;
   justify-content: center;
   align-items: center;
+`;
+const BottomContainer = styled.View`
+  flex: 1;
+  justify-content: flex-end;
+  align-items: end;
+  padding-right: 5;
+  padding-left: 90%;
+  padding-bottom: 5;
 `;
 const Title = styled.Text`
   font-size: 40px;
@@ -33,6 +41,7 @@ const Todo = () => {
   const [isReady, setIsReady] = useState(false);
   const [newTask, setNewTask] = useState('');
   const [tasks, setTasks] = useState({});
+  const [show, setShow] = useState(false);
 
   const _saveTasks = async tasks => {
     try {
@@ -54,6 +63,7 @@ const Todo = () => {
     };
     setNewTask('');
     _saveTasks({ ...tasks, ...newTaskObject });
+    setShow(false);
   };
   const _deleteTask = id => {
     const currentTasks = Object.assign({}, tasks);
@@ -78,6 +88,10 @@ const Todo = () => {
     setNewTask('');
   };
 
+  const _showAddTask = () => {
+    setShow(true);
+  };
+
   return (
     <Container>
       <StatusBar
@@ -85,13 +99,14 @@ const Todo = () => {
         backgroundColor={theme.background} // Android only
       />
       <Title>TODO List</Title>
-      <Input
+      { show && <Input
         placeholder="+ Add a Task"
         value={newTask}
         onChangeText={_handleTextChange}
         onSubmitEditing={_addTask}
         onBlur={_onBlur}
       />
+      }
       <List width={width}>
           {Object.values(tasks)
             .reverse()
@@ -105,9 +120,9 @@ const Todo = () => {
               />
             ))}
       </List>
-      <Container>
-        <Text>text</Text>
-      </Container>
+      <BottomContainer>
+        <Button title="+" onPress={_showAddTask}></Button>
+      </BottomContainer>
     </Container>
   );
 };
