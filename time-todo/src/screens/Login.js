@@ -24,10 +24,6 @@ margin-bottom: 10px;
 line-height: 20px;
 color: ${({ theme }) => theme.errorText};
 `;
-/*const StyledText = styled.Text`
-  font-size: 30px;
-  margin-bottom: 10px;
-`;*/
 
 const Login = ({ navigation }) => {
   const { dispatch } = useContext(UserContext);
@@ -90,7 +86,7 @@ const Login = ({ navigation }) => {
           label="Password"
           value={password}
           onChangeText={_handlePasswordChange}
-          //onSubmitEditing={_handleLoginButtonPress}
+          onSubmitEditing={_handleLoginButtonPress}
           placeholder="Password"
           returnKeyType="done"
           isPassword

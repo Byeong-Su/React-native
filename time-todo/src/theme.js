@@ -5,6 +5,8 @@ const colors = {
   grey_1: '#a6a6a6',
   red: '#e84118',
   blue: '#3679fe',
+  darkblue: '#000080',
+  green: '#008000'
 };
 
 export const theme = {
@@ -28,6 +30,7 @@ export const theme = {
   buttonTitle: colors.white,
   buttonUnfilledTitle: colors.blue,
   buttonLogout: colors.red,
+  buttonGreen: colors.green,
 
   // Navigation
   headerTintColor: colors.black,

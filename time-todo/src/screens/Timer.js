@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '../components';
 import styled from 'styled-components/native';
 //import { TouchableOpacity } from 'react-native-gesture-handler';
@@ -12,6 +12,7 @@ const Container = styled.View`
 `;
 const Text = styled.Text`
   font-size: 50px;
+  justify-content: center;
   align-items: center;
   width: 100%;
   height: 20px;
@@ -60,6 +61,13 @@ const Timer = () => {
 
     return `${getHours}:${getMinutes}.${getSeconds}`
   }
+  //마운트시 시,분,초 값 가져와서 표출 및 카운트 시작
+
+  useEffect(() => {
+    handleStart();
+
+    return () => handleStart();
+  }, []);
 
   return (
     <Container>

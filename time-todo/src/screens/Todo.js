@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
-import { StatusBar, Dimensions, Button } from 'react-native';
+import { StatusBar, Dimensions } from 'react-native';
 import styled from 'styled-components/native';
 import { theme } from '../theme';
-import { Input } from '../components';
+import { Button, Input } from '../components';
 import Task from '../components/Task';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -15,9 +15,9 @@ const BottomContainer = styled.View`
   flex: 1;
   justify-content: flex-end;
   align-items: end;
-  padding-right: 5;
+  padding-right: 20;
   padding-left: 90%;
-  padding-bottom: 5;
+  padding-bottom: 20;
 `;
 const Title = styled.Text`
   font-size: 40px;
@@ -105,8 +105,7 @@ const Todo = () => {
         onChangeText={_handleTextChange}
         onSubmitEditing={_addTask}
         onBlur={_onBlur}
-      />
-      }
+      />}
       <List width={width}>
           {Object.values(tasks)
             .reverse()
@@ -121,7 +120,16 @@ const Todo = () => {
             ))}
       </List>
       <BottomContainer>
-        <Button title="+" onPress={_showAddTask}></Button>
+        <Button
+          title="+"
+          onPress={_showAddTask}
+          containerStyle={{
+            width: 100,
+            height: 100,
+            borderRadius: 50,
+            backgroundColor: theme.buttonGreen            
+          }}
+        />
       </BottomContainer>
     </Container>
   );
