@@ -5,8 +5,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
 import { UserContext } from '../contexts';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 
 const Tab = createBottomTabNavigator();
+const Stack = createStackNavigator();/**/
 
 const TabBarIcon = ({ focused, name }) => {
   const theme = useContext(ThemeContext);
@@ -55,7 +58,7 @@ const MainTab = ({ navigation, route }) => {
     });
   }, [route]);
 
-  return (
+  return (    
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: theme.tabActiveColor,

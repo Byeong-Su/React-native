@@ -65,6 +65,11 @@ const Todo = () => {
     _saveTasks({ ...tasks, ...newTaskObject });
     setShow(false);
   };
+  const _playTask = id => {
+    const currentTasks = Object.assign({}, tasks);
+    //delete currentTasks[id];
+    _saveTasks(currentTasks);
+  };
   const _deleteTask = id => {
     const currentTasks = Object.assign({}, tasks);
     delete currentTasks[id];
@@ -113,6 +118,7 @@ const Todo = () => {
               <Task
                 key={item.id}
                 item={item}
+                playTask={_playTask}
                 deleteTask={_deleteTask}
                 toggleTask={_toggleTask}
                 updateTask={_updateTask}

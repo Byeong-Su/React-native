@@ -22,7 +22,7 @@ const Contents = styled.Text`
     completed ? 'line-through' : 'none'};
 `;
 
-const Task = ({ item, deleteTask, toggleTask, updateTask }) => {
+const Task = ({ item, playTask, deleteTask, toggleTask, updateTask }) => {
   const [isEditing, setIsEditing] = useState(false);
   const [text, setText] = useState(item.text);
 
@@ -59,6 +59,12 @@ const Task = ({ item, deleteTask, toggleTask, updateTask }) => {
         completed={item.completed}
       />
       <Contents completed={item.completed}>{item.text}</Contents>
+      <IconButton
+        type={images.playicon}
+        id={item.id}
+        onPressOut={playTask}
+        completed={item.completed}
+      />
       {item.completed || (
         <IconButton
           type={images.update}
