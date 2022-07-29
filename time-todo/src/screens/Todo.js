@@ -65,10 +65,8 @@ const Todo = ({ navigation }) => {
     _saveTasks({ ...tasks, ...newTaskObject });
     setShow(false);
   };
-  const _playTask = id => {
-    const currentTasks = Object.assign({}, tasks);
-    //delete currentTasks[id];
-    _saveTasks(currentTasks);
+  const _playTask = params => {
+    navigation.navigate('Channel', params);
   };
   const _deleteTask = id => {
     const currentTasks = Object.assign({}, tasks);
@@ -119,6 +117,7 @@ const Todo = ({ navigation }) => {
                 key={item.id}
                 item={item}
                 playTask={_playTask}
+                //playTask={() => navigation.navigate('Timer')}
                 deleteTask={_deleteTask}
                 toggleTask={_toggleTask}
                 updateTask={_updateTask}
@@ -126,9 +125,9 @@ const Todo = ({ navigation }) => {
             ))}
       </List>
       <Button
-        title="navigation_test"
-        onPress={() => navigation.navigate('Timer')}>
-      </Button>
+        title="Go to Timer Screen"
+        onPress={_playTask}
+      />
       <BottomContainer>
         <Button
           title="+"

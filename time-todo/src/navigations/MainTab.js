@@ -1,11 +1,11 @@
 import React, { useContext, useEffect } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { CalendarView, Todo, Profile, Timer } from '../screens';
+import TimerStack from './TimerStack';
 import { MaterialIcons } from '@expo/vector-icons';
 import { ThemeContext } from 'styled-components/native';
 import { UserContext } from '../contexts';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
-
 
 const Tab = createBottomTabNavigator();
 
@@ -56,7 +56,7 @@ const MainTab = ({ navigation, route }) => {
     });
   }, [route]);
 
-  return (    
+  return (
     <Tab.Navigator
       tabBarOptions={{
         activeTintColor: theme.tabActiveColor,
@@ -70,7 +70,7 @@ const MainTab = ({ navigation, route }) => {
           tabBarIcon: ({ focused }) =>
             TabBarIcon({
               focused,
-              name: focused ? 'person' : 'person-outline',
+              name: focused ? 'calendar-view-day' : 'calendar-today',
             }),
         }}
       />
@@ -81,7 +81,7 @@ const MainTab = ({ navigation, route }) => {
           tabBarIcon: ({ focused }) =>
             TabBarIcon({
               focused,
-              name: focused ? 'chat-bubble' : 'chat-bubble-outline',
+              name: focused ? 'work' : 'work-outline',
             }),
         }}
       />
@@ -96,18 +96,37 @@ const MainTab = ({ navigation, route }) => {
             }),
         }}
       />
-      <Tab.Screen
+      {/*<Tab.Screen
         name="Timer"
         component={Timer}
         options={{
+          tabBarHideOnKeyboard: true,
           tabBarIcon: ({ focused }) =>
             TabBarIcon({
               focused,
               name: focused ? 'person' : 'person-outline',
             }),
         }}
-      />
-    </Tab.Navigator>
+      />  */}  
+    </Tab.Navigator>  
+
+<Stack.Navigator
+initialRouteName="Timer"
+screenOptions={{
+  headerTitleAlign: 'center',
+  headerTintColor: theme.headerTintColor,
+  cardStyle: { backgroundColor: theme.background },
+  headerBackTitleVisible: false,
+}}>
+<Stack.Screen name="Timer" component={Timer} />
+
+{/*
+<Stack.Screen name="Timer" component={Timer}
+  //헤더 렌더링x
+  options={{ headerShown: false }}
+/>
+*/}
+</Stack.Navigator>
   );
 };
 

@@ -1,5 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '../components';
+import { BackHandler, Alert } from "react-native";
 import styled from 'styled-components/native';
 //import { TouchableOpacity } from 'react-native-gesture-handler';
 
@@ -35,6 +36,27 @@ const Timer = () => {
   const [isActive, setIsActive] = useState(false)
   const increment = useRef(null)
 
+  useEffect(() => {
+    const backAction = () => {
+      Alert.alert("Hold on!", "Are you sure you want to go back?", [
+        {
+          text: "Cancel",
+          onPress: () => null,
+          style: "cancel"
+        },
+        { text: "YES", onPress: () => BackHandler.exitApp() }
+      ]);
+      return true;
+    };
+
+    const backHandler = BackHandler.addEventListener(
+      "hardwareBackPress",
+      backAction
+    );
+
+    return () => backHandler.remove();
+  }, []);  
+
   const handleStart = () => {
     setIsActive(!isActive)
     {
@@ -46,6 +68,7 @@ const Timer = () => {
       (clearInterval(increment.current))
     }
   }
+
 
   const handleReset = () => {
     clearInterval(increment.current)
@@ -81,7 +104,7 @@ const Timer = () => {
       <TouchableOpacity onPress={handleReset}>
         <Text style={{ fontSize: 30 }}>Reset</Text>
       </TouchableOpacity> 
-      */}     
+      */}  
     </Container>
   )
 }

@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import MainTab from './MainTab';
+import { Timer } from '../screens';
 
 const Stack = createStackNavigator();
 
@@ -18,14 +19,10 @@ const MainStack = () => {
         headerBackTitleVisible: false,
       }}>
       <Stack.Screen name="Main" component={MainTab} />
-      
-      {/*
       <Stack.Screen name="Timer" component={Timer}
         //헤더 렌더링x
-        options={{ headerShown: false }}
+        //options={{ headerShown: false }}
       />
-      */}
-
     </Stack.Navigator>
   );
 };
