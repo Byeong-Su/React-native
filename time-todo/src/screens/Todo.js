@@ -35,7 +35,7 @@ const List = styled.ScrollView`
   width: ${({ width }) => width - 40}px;
 `;
 
-const Todo = () => {
+const Todo = ({ navigation }) => {
   const width = Dimensions.get('window').width;
 
   const [isReady, setIsReady] = useState(false);
@@ -125,6 +125,10 @@ const Todo = () => {
               />
             ))}
       </List>
+      <Button
+        title="navigation_test"
+        onPress={() => navigation.navigate('Timer')}>
+      </Button>
       <BottomContainer>
         <Button
           title="+"
