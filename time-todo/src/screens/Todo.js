@@ -66,7 +66,7 @@ const Todo = ({ navigation }) => {
     setShow(false);
   };
   const _playTask = params => {
-    navigation.navigate('Channel', params);
+    navigation.navigate('Timer', params);
   };
   const _deleteTask = id => {
     const currentTasks = Object.assign({}, tasks);
