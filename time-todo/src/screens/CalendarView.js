@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import styled from 'styled-components/native';
 import { Calendar } from "react-native-calendars";
 import { StyleSheet, Text } from "react-native";
+import Modal from "react-native-modal";
 
 const Container = styled.View`
   flex: 1;
@@ -13,9 +14,13 @@ const styles = StyleSheet.create({
   }
 });
 
+
 const CalendarView = () => {
   const [myText, setmyText] = useState("");
-  const [modal, setModal] = useState(false);
+  //State를 이용하여 Modal을 제어함
+  const [modalVisible, setModalVisible] = useState(false);
+  //Output을 State로 받아서 화면에 표출하거나 정보 값으로 활용
+  const [modalOutput, setModalOutput] = useState();
 
   return (
     <Container>
@@ -44,11 +49,88 @@ const CalendarView = () => {
 
         onDayPress={day => {
           console.log('selected day', day);
-          setmyText(JSON.stringify(day));
-          setModal(true);
+          setModalOutput(JSON.stringify(day));
+          setModalVisible(true);
         }}
       />
-      { modal && <Text>{myText}</Text> }
+      { modalVisible && <Text>{modalOutput}</Text> }
+      {/*
+      <Modal
+        //isVisible Props에 State 값을 물려주어 On/off control
+        isVisible={modalVisible}
+        //아이폰에서 모달창 동작시 깜박임이 있었는데, useNativeDriver Props를 True로 주니 해결되었다.
+        useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
+        <StyledModalContainer>
+          <StyledModalGradeWrapper>
+            <StyledModalGradeText>선택지</StyledModalGradeText>
+          </StyledModalGradeWrapper>
+
+          <HorizentalLine />
+
+          <StyledModalButton
+            onPress={() => {
+              setModalOutput("선택 1");
+              setModalVisible(false);
+            }}
+          >
+            <StyledModalText>선택 1</StyledModalText>
+          </StyledModalButton>
+
+          <HorizentalLine />
+
+          <StyledModalButton
+            onPress={() => {
+              setModalOutput("선택 2");
+              setModalVisible(false);
+            }}
+          >
+            <StyledModalText>선택 2</StyledModalText>
+          </StyledModalButton>
+
+          <HorizentalLine />
+
+          <StyledModalButton
+            onPress={() => {
+              setModalOutput("선택 3");
+              setModalVisible(false);
+            }}
+          >
+            <StyledModalText>선택 3</StyledModalText>
+          </StyledModalButton>
+
+          <HorizentalLine />
+
+          <StyledModalButton
+            onPress={() => {
+              setModalOutput("선택 4");
+              setModalVisible(false);
+            }}
+          >
+            <StyledModalText>선택 4</StyledModalText>
+          </StyledModalButton>
+
+          <HorizentalLine />
+
+          <StyledModalButton
+            onPress={() => {
+              setModalVisible(false);
+            }}
+          >
+            <Text style={{ alignSelf: "center" }}>취소</Text>
+          </StyledModalButton>
+        </StyledModalContainer>
+      </Modal>
+      <StyledModalOpenButton
+        onPress={() => {
+          setModalVisible(true);
+        }}
+      >
+        모달에서 선택 결과 값을 State로 받아서 화면에 표시
+        <StyledModalOutputText> {modalOutput}</StyledModalOutputText>
+      </StyledModalOpenButton>*/}
     </Container>
   );
 };

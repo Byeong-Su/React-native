@@ -124,10 +124,6 @@ const Todo = ({ navigation }) => {
               />
             ))}
       </List>
-      <Button
-        title="Go to Timer Screen"
-        onPress={_playTask}
-      />
       <BottomContainer>
         <Button
           title="+"
