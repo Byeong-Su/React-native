@@ -54,7 +54,7 @@ const CalendarView = () => {
         }}
       />
       { modalVisible && <Text>{modalOutput}</Text> }
-      {/*
+      
       <Modal
         //isVisible Props에 State 값을 물려주어 On/off control
         isVisible={modalVisible}
@@ -130,7 +130,7 @@ const CalendarView = () => {
       >
         모달에서 선택 결과 값을 State로 받아서 화면에 표시
         <StyledModalOutputText> {modalOutput}</StyledModalOutputText>
-      </StyledModalOpenButton>*/}
+      </StyledModalOpenButton>
     </Container>
   );
 };
