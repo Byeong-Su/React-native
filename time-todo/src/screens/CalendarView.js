@@ -14,6 +14,62 @@ const styles = StyleSheet.create({
   }
 });
 
+const StyledModalContainer = styled.View`
+  flex-direction: column;
+  align-items: center;
+  /* 모달창 크기 조절 */
+  width: 320px;
+  height: 220px;
+  background-color: rgba(255, 255, 255, 1);
+  border-radius: 10px;
+`;
+
+const StyledModalButton = styled.TouchableOpacity`
+  /* Modal Button들의 모달창 내의 높이를 균일하게 하기 위하여 flex를 줌 */
+  flex: 1;
+  width: 320px;
+  justify-content: center;
+`;
+
+// 모달창 내에서 버튼으로 활용되지 않는 타이틀 부분은 View 만듬
+const StyledModalGradeWrapper = styled.View`
+  flex: 1;
+  width: 320px;
+  justify-content: center;
+`;
+
+const StyledModalGradeText = styled.Text`
+  align-self: center;
+  font-size: 15px;
+`;
+
+const StyledModalText = styled.Text`
+  align-self: center;
+  color: blue;
+  font-size: 15px;
+`;
+
+//React Native 요소 중에서 CSS에서 hr 태그 같은 요소를 몰라서 View로 구현... 더 좋은 방법이 있다면 알려주세요
+const HorizentalLine = styled.View`
+  background-color: black;
+  height: 1px;
+  align-self: stretch;
+`;
+
+const StyledModalOpenButton = styled.TouchableOpacity`
+  height: 50px;
+  width: 60%;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border-width: 1px;
+  border-color: rgba(0, 0, 0, 1);
+`;
+
+const StyledModalOutputText = styled.Text`
+  color: black;
+  font-size: 30px;
+`;
 
 const CalendarView = () => {
   const [myText, setmyText] = useState("");
@@ -57,13 +113,13 @@ const CalendarView = () => {
       
       <Modal
         //isVisible Props에 State 값을 물려주어 On/off control
-        isVisible={modalVisible}
+        //isVisible={modalVisible}
         //아이폰에서 모달창 동작시 깜박임이 있었는데, useNativeDriver Props를 True로 주니 해결되었다.
-        useNativeDriver={true}
-        hideModalContentWhileAnimating={true}
+        //useNativeDriver={true}
+        //hideModalContentWhileAnimating={true}
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
       >
-        <StyledModalContainer>
+        {/*<StyledModalContainer>
           <StyledModalGradeWrapper>
             <StyledModalGradeText>선택지</StyledModalGradeText>
           </StyledModalGradeWrapper>
@@ -121,15 +177,15 @@ const CalendarView = () => {
           >
             <Text style={{ alignSelf: "center" }}>취소</Text>
           </StyledModalButton>
-        </StyledModalContainer>
+          </StyledModalContainer>*/}
       </Modal>
       <StyledModalOpenButton
         onPress={() => {
-          setModalVisible(true);
+          //setModalVisible(true);
         }}
       >
-        모달에서 선택 결과 값을 State로 받아서 화면에 표시
-        <StyledModalOutputText> {modalOutput}</StyledModalOutputText>
+        {/*모달에서 선택 결과 값을 State로 받아서 화면에 표시*/}
+        <StyledModalOutputText> {modalOutput}</StyledModalOutputText>*/}
       </StyledModalOpenButton>
     </Container>
   );
