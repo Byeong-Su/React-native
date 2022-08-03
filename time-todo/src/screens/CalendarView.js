@@ -105,7 +105,15 @@ const CalendarView = () => {
 
         onDayPress={day => {
           console.log('selected day', day);
-          setModalOutput(JSON.stringify(day));
+          //JSON to String
+          //setModalOutput(JSON.stringify(day));
+
+          //JSON to Key and Value          
+          //setModalOutput(day.year);
+          //setModalOutput(day.month);
+          //setModalOutput(day.day);
+          //setModalOutput(day.timestamp);
+          setModalOutput(day.dateString);
           setModalVisible(true);
         }}
       />
@@ -113,13 +121,13 @@ const CalendarView = () => {
       
       <Modal
         //isVisible Props에 State 값을 물려주어 On/off control
-        //isVisible={modalVisible}
+        isVisible={modalVisible}
         //아이폰에서 모달창 동작시 깜박임이 있었는데, useNativeDriver Props를 True로 주니 해결되었다.
-        //useNativeDriver={true}
-        //hideModalContentWhileAnimating={true}
+        useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
         style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
       >
-        {/*<StyledModalContainer>
+        <StyledModalContainer>
           <StyledModalGradeWrapper>
             <StyledModalGradeText>선택지</StyledModalGradeText>
           </StyledModalGradeWrapper>
@@ -177,14 +185,13 @@ const CalendarView = () => {
           >
             <Text style={{ alignSelf: "center" }}>취소</Text>
           </StyledModalButton>
-          </StyledModalContainer>*/}
+          </StyledModalContainer>
       </Modal>
       <StyledModalOpenButton
         onPress={() => {
           //setModalVisible(true);
         }}
       >
-        {/*모달에서 선택 결과 값을 State로 받아서 화면에 표시*/}
         <StyledModalOutputText> {modalOutput}</StyledModalOutputText>*/}
       </StyledModalOpenButton>
     </Container>
@@ -195,3 +202,6 @@ export default CalendarView;
 
 //캘린더 관련 문서
 //https://github.com/wix/react-native-calendars
+
+//모달 관련 문서
+//https://github.com/react-native-modal/react-native-modal
