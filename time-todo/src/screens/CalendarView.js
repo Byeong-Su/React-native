@@ -187,13 +187,6 @@ const CalendarView = () => {
           </StyledModalButton>
           </StyledModalContainer>
       </Modal>
-      <StyledModalOpenButton
-        onPress={() => {
-          //setModalVisible(true);
-        }}
-      >
-        <StyledModalOutputText> {modalOutput}</StyledModalOutputText>*/}
-      </StyledModalOpenButton>
     </Container>
   );
 };
