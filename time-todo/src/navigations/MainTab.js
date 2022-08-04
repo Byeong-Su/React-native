@@ -66,6 +66,7 @@ const MainTab = ({ navigation, route }) => {
         name="CalandarView"
         component={CalendarView}
         options={{
+          headerTitleAlign: "center",
           tabBarIcon: ({ focused }) =>
             TabBarIcon({
               focused,
@@ -77,6 +78,7 @@ const MainTab = ({ navigation, route }) => {
         name="Todo"
         component={Todo}
         options={{
+          headerTitleAlign: "center",
           tabBarIcon: ({ focused }) =>
             TabBarIcon({
               focused,
@@ -88,6 +90,7 @@ const MainTab = ({ navigation, route }) => {
         name="Profile"
         component={Profile}
         options={{
+          headerTitleAlign: "center",
           tabBarIcon: ({ focused }) =>
             TabBarIcon({
               focused,

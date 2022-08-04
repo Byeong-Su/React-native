@@ -18,10 +18,12 @@ const MainStack = () => {
         cardStyle: { backgroundColor: theme.background },
         headerBackTitleVisible: false,
       }}>
-      <Stack.Screen name="Main" component={MainTab} />
+      <Stack.Screen name="Main" component={MainTab}
+        options={{ headerShown: false }}
+      />
       <Stack.Screen name="Timer" component={Timer}
         //헤더 렌더링x
-        //options={{ headerShown: false }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
