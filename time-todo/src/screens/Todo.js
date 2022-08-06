@@ -117,7 +117,6 @@ const Todo = ({ navigation }) => {
                 key={item.id}
                 item={item}
                 playTask={_playTask}
-                //playTask={() => navigation.navigate('Timer')}
                 deleteTask={_deleteTask}
                 toggleTask={_toggleTask}
                 updateTask={_updateTask}
