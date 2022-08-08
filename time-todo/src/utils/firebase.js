@@ -63,6 +63,7 @@ export const signout = async () => {
   return {};
 };
 
+//DB부분
 const db = getFirestore(app);
 
 export const createChannel = async ({ title, description }) => {
