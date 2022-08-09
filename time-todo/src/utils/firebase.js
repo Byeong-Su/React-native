@@ -66,21 +66,22 @@ export const signout = async () => {
 //DB부분
 const db = getFirestore(app);
 
-export const createChannel = async ({ title, description }) => {
-  const channelCollection = collection(db, 'channels');
-  const newChannelRef = doc(channelCollection);
-  const id = newChannelRef.id;
-  const newChannel = {
+export const createTime = async ({ id, time }) => {
+  const timeCollection = collection(db, 'users');
+  const newTimeRef = doc(timeCollection);
+  //const id = newTimeRef.id;
+  const newTime = {
     id,
-    title,
-    description,
+    time,
     createdAt: Date.now(),
   };
-  await setDoc(newChannelRef, newChannel);
+  await setDoc(newTimeRef, newTime);
   return id;
 };
 //message 컬렉션이 위치한 채널 문서를 찾기위해 channelId를 받음
-export const createMessage = async ({ channelId, message }) => {
-  const docRef = doc(db, `channels/${channelId}/messages`, message._id);
+export const createMessage = async ({ todoId, message }) => {
+  const docRef = doc(db, `channels/${todoId}/messages`, message._id);
   await setDoc(docRef, { ...message, createdAt: Date.now() });
 };
+
+export const DDB = firebase.firestore();

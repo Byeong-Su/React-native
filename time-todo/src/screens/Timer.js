@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '../components';
 import { BackHandler, Alert } from "react-native";
 import styled from 'styled-components/native';
+import DB from '../utils/firebase';
 //import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Container = styled.View`
@@ -55,6 +56,15 @@ const Timer = () => {
     );
 
     return () => backHandler.remove();
+
+    
+    const getTime = DDB.collection('abc@naver.com')
+      .onSnapshot(snapshot => {
+        const dateTime = doc.data();
+        setTimer(dateTime);
+      });
+
+    return () => getTime();
   }, []);  
 
   const handleStart = () => {
@@ -95,8 +105,8 @@ const Timer = () => {
   return (
     <Container>
       <Text>{formatTime()}</Text>
-      <Button title="Start/Stop" onPress={handleStart}></Button>
-      <Button title="Reset" onPress={handleReset}></Button>
+      {/*<Button title="Start/Stop" onPress={handleStart}></Button>
+      <Button title="Stop" onPress={handleReset}></Button>*/}
       {/*
       <TouchableOpacity onPress={handleStart}>
         <Text style={{ fontSize: 30 }}>{!isActive ? "Start" : "Stop"}</Text>
