@@ -10,7 +10,6 @@ import {
   onSnapshot,
   query,
 } from 'firebase/firestore';
-//import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Container = styled.View`
   flex: 1;
@@ -39,6 +38,11 @@ const styles = StyleSheet.create({
   }
 })*/
 
+
+
+
+
+
 //moment라이브러리 이용해 createdAt필드에 저장된 타임스탭프를 보기좋은 형식으로 변경
 /*const getDateOrTime = ts => {
   const now = moment().startOf('day');
@@ -55,36 +59,18 @@ const Timer = () => {
 
   const db = getFirestore(app);
 
-  /*useEffect(() => {    
-    const backAction = () => {
-      Alert.alert("Hold on!", "Are you sure you want to go back?", [
-        {
-          text: "Cancel",
-          onPress: () => null,
-          style: "cancel"
-        },
-        { text: "YES", onPress: () => BackHandler.exitApp() }
-      ]);
-      return true;
-    };
+  const collectionQuery = query(collection(db, 'users'));  
 
-    const backHandler = BackHandler.addEventListener(
-      "hardwareBackPress",
-      backAction
-    );
-
-    return () => backHandler.remove();  
-  }, []);*/
-
-  //
-  const collectionQuery = query(
-    collection(db, 'users'),
-  );
   const testFunction = () => {
-    tmpTimer = await db.collection('users').get();
-    setTmpTimer(tmpTimer);
+    onSnapshot(collectionQuery, snapshot => {
+      const list = [];
+      snapshot.forEach(doc => {
+        list.push(doc.data());
+      });
+      tmpTimer=list[0];
+      setTmpTimer(list);
+    });
   };
-  //
 
   const handleStart = () => {
     setIsActive(!isActive)
