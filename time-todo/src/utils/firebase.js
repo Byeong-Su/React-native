@@ -83,5 +83,3 @@ export const createMessage = async ({ todoId, message }) => {
   const docRef = doc(db, `channels/${todoId}/messages`, message._id);
   await setDoc(docRef, { ...message, createdAt: Date.now() });
 };
-
-export const DDB = firebase.firestore();

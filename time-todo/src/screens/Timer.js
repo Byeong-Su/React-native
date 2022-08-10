@@ -1,8 +1,15 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '../components';
 import { BackHandler, Alert } from "react-native";
+//import moment from 'moment';
 import styled from 'styled-components/native';
-import DB from '../utils/firebase';
+import { app } from '../utils/firebase';
+import {
+  getFirestore,
+  collection,
+  onSnapshot,
+  query,
+} from 'firebase/firestore';
 //import { TouchableOpacity } from 'react-native-gesture-handler';
 
 const Container = styled.View`
@@ -32,13 +39,23 @@ const styles = StyleSheet.create({
   }
 })*/
 
+//moment라이브러리 이용해 createdAt필드에 저장된 타임스탭프를 보기좋은 형식으로 변경
+/*const getDateOrTime = ts => {
+  const now = moment().startOf('day');
+  const target = moment(ts).startOf('day');
+  return moment(ts).format(now.diff(target, 'days') > 0 ? 'MM/DD' : 'HH:mm');
+};*/
+
 const Timer = () => {
   const [timer, setTimer] = useState(0)
   const [isActive, setIsActive] = useState(false)
   const increment = useRef(null)
 
-  useEffect(() => {
-    const backAction = () => {
+  const [tmpTimer, setTmpTimer] = useState('empty');
+
+  const db = getFirestore(app);
+  useEffect(() => {    
+    /*const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to go back?", [
         {
           text: "Cancel",
@@ -55,17 +72,23 @@ const Timer = () => {
       backAction
     );
 
-    return () => backHandler.remove();
+    return () => backHandler.remove();*/    
+  }, []);
 
-    
-    const getTime = DDB.collection('abc@naver.com')
-      .onSnapshot(snapshot => {
-        const dateTime = doc.data();
-        setTimer(dateTime);
-      });
-
-    return () => getTime();
-  }, []);  
+  //
+  const collectionQuery = query(
+    collection(db, 'users'),
+  );
+  const testFunction = () => {
+    onSnapshot(collectionQuery, snapshot => {
+      const tmpTimer = [];
+      snapshot.forEach(doc => {
+        tmpTimer.push(doc.data());
+      })
+    });
+    setTmpTimer(tmpTimer[0]);
+  };
+  //
 
   const handleStart = () => {
     setIsActive(!isActive)
@@ -105,6 +128,8 @@ const Timer = () => {
   return (
     <Container>
       <Text>{formatTime()}</Text>
+      <Text>{tmpTimer}</Text>
+      <Button title="test" onPress={testFunction}></Button>
       {/*<Button title="Start/Stop" onPress={handleStart}></Button>
       <Button title="Stop" onPress={handleReset}></Button>*/}
       {/*
