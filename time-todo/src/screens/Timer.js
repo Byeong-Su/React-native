@@ -54,8 +54,9 @@ const Timer = () => {
   const [tmpTimer, setTmpTimer] = useState('empty');
 
   const db = getFirestore(app);
-  useEffect(() => {    
-    /*const backAction = () => {
+
+  /*useEffect(() => {    
+    const backAction = () => {
       Alert.alert("Hold on!", "Are you sure you want to go back?", [
         {
           text: "Cancel",
@@ -72,21 +73,16 @@ const Timer = () => {
       backAction
     );
 
-    return () => backHandler.remove();*/    
-  }, []);
+    return () => backHandler.remove();  
+  }, []);*/
 
   //
   const collectionQuery = query(
     collection(db, 'users'),
   );
   const testFunction = () => {
-    onSnapshot(collectionQuery, snapshot => {
-      const tmpTimer = [];
-      snapshot.forEach(doc => {
-        tmpTimer.push(doc.data());
-      })
-    });
-    setTmpTimer(tmpTimer[0]);
+    tmpTimer = await db.collection('users').get();
+    setTmpTimer(tmpTimer);
   };
   //
 
