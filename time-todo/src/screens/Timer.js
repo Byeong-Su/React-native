@@ -9,6 +9,7 @@ import {
   collection,
   onSnapshot,
   query,
+  getDocs
 } from 'firebase/firestore';
 
 const Container = styled.View`
@@ -38,11 +39,6 @@ const styles = StyleSheet.create({
   }
 })*/
 
-
-
-
-
-
 //moment라이브러리 이용해 createdAt필드에 저장된 타임스탭프를 보기좋은 형식으로 변경
 /*const getDateOrTime = ts => {
   const now = moment().startOf('day');
@@ -54,24 +50,24 @@ const Timer = () => {
   const [timer, setTimer] = useState(0)
   const [isActive, setIsActive] = useState(false)
   const increment = useRef(null)
-
-  const [tmpTimer, setTmpTimer] = useState('empty');
+  const now = new Date();
+  const nowFormat = now.getFullYear().toString() + (now.getMonth()+1).toString() + now.getDate().toString();
 
   const db = getFirestore(app);
 
-  const collectionQuery = query(collection(db, 'users'));  
-
-  const testFunction = () => {
-    onSnapshot(collectionQuery, snapshot => {
-      const list = [];
-      snapshot.forEach(doc => {
-        list.push(doc.data());
-      });
-      tmpTimer=list[0];
-      setTmpTimer(list);
+  const getFirestoreTime = async () => {
+    const querySnapshot = await getDocs(collection(db, "users"));
+    querySnapshot.forEach((doc) => {
+      //setTimer(`${doc.id} => ${JSON.stringify(doc.data()["20220810"])}`);
+      setTimer(doc.data()["20220810"]);
+      //console.log(`${doc.id} => ${doc.data()}`);
     });
-  };
+  }
+  useEffect(() => {
+    getFirestoreTime();
+  }, []);
 
+  //useInterval이 좋다?
   const handleStart = () => {
     setIsActive(!isActive)
     {
@@ -110,8 +106,8 @@ const Timer = () => {
   return (
     <Container>
       <Text>{formatTime()}</Text>
-      <Text>{tmpTimer}</Text>
-      <Button title="test" onPress={testFunction}></Button>
+      <Text>{nowFormat}</Text>
+      <Button title="test" onPress={''}></Button>
       {/*<Button title="Start/Stop" onPress={handleStart}></Button>
       <Button title="Stop" onPress={handleReset}></Button>*/}
       {/*

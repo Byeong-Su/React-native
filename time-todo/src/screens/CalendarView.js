@@ -107,13 +107,12 @@ const CalendarView = () => {
           console.log('selected day', day);
           //JSON to String
           //setModalOutput(JSON.stringify(day));
-
           //JSON to Key and Value          
           //setModalOutput(day.year);
           //setModalOutput(day.month);
           //setModalOutput(day.day);
-          //setModalOutput(day.timestamp);
-          setModalOutput(day.dateString);
+          setModalOutput(day.timestamp);
+          //setModalOutput(day.dateString);
           setModalVisible(true);
         }}
       />
