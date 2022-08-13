@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '../components';
 import { BackHandler, Alert } from "react-native";
-//import moment from 'moment';
 import styled from 'styled-components/native';
 import { app } from '../utils/firebase';
 import {
@@ -9,7 +8,9 @@ import {
   collection,
   onSnapshot,
   query,
-  getDocs
+  doc,
+  getDocs,
+  setDoc
 } from 'firebase/firestore';
 
 const Container = styled.View`
@@ -39,19 +40,16 @@ const styles = StyleSheet.create({
   }
 })*/
 
-//moment라이브러리 이용해 createdAt필드에 저장된 타임스탭프를 보기좋은 형식으로 변경
-/*const getDateOrTime = ts => {
-  const now = moment().startOf('day');
-  const target = moment(ts).startOf('day');
-  return moment(ts).format(now.diff(target, 'days') > 0 ? 'MM/DD' : 'HH:mm');
-};*/
-
 const Timer = () => {
   const [timer, setTimer] = useState(0)
   const [isActive, setIsActive] = useState(false)
   const increment = useRef(null)
+
+  //오늘 날짜 설정
   const now = new Date();
-  const nowFormat = now.getFullYear().toString() + (now.getMonth()+1).toString() + now.getDate().toString();
+  const nowMonth = (now.getMonth()+1) < 10 ? '0'+(now.getMonth()+1).toString() : (now.getMonth()+1).toString();
+  const nowDay = (now.getDate) < 10 ? '0'+(now.getDate()).toString() : (now.getDate()).toString();
+  const nowFormat = now.getFullYear().toString() + nowMonth + nowDay;
 
   const db = getFirestore(app);
 
@@ -59,7 +57,8 @@ const Timer = () => {
     const querySnapshot = await getDocs(collection(db, "users"));
     querySnapshot.forEach((doc) => {
       //setTimer(`${doc.id} => ${JSON.stringify(doc.data()["20220810"])}`);
-      setTimer(doc.data()["20220810"]);
+      //setTimer(doc.data()['20220812']);
+      setTimer(doc.data()[nowFormat]);
       //console.log(`${doc.id} => ${doc.data()}`);
     });
   }
@@ -79,7 +78,6 @@ const Timer = () => {
       (clearInterval(increment.current))
     }
   }
-
 
   const handleReset = () => {
     clearInterval(increment.current)
@@ -103,11 +101,17 @@ const Timer = () => {
     return () => handleStart();
   }, []);
 
+  const testFunction = async () => {
+    await setDoc(doc(db, "users", "abc@naver.com"), {
+      20220812 : 2000,
+      20220801 : 1000
+    });
+  }
+
   return (
     <Container>
       <Text>{formatTime()}</Text>
-      <Text>{nowFormat}</Text>
-      <Button title="test" onPress={''}></Button>
+      <Button title="test" onPress={testFunction}></Button>
       {/*<Button title="Start/Stop" onPress={handleStart}></Button>
       <Button title="Stop" onPress={handleReset}></Button>*/}
       {/*
