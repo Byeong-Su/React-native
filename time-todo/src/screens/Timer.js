@@ -10,7 +10,8 @@ import {
   query,
   doc,
   getDocs,
-  setDoc
+  setDoc,
+  getDoc
 } from 'firebase/firestore';
 
 const Container = styled.View`
@@ -41,9 +42,11 @@ const styles = StyleSheet.create({
 })*/
 
 const Timer = () => {
-  const [timer, setTimer] = useState(0)
-  const [isActive, setIsActive] = useState(false)
-  const increment = useRef(null)
+  const [timer, setTimer] = useState();
+  const [isActive, setIsActive] = useState(false);
+  const increment = useRef(null);
+
+  const [t, setT] = useState();
 
   //오늘 날짜 설정
   const now = new Date();
@@ -54,13 +57,21 @@ const Timer = () => {
   const db = getFirestore(app);
 
   const getFirestoreTime = async () => {
-    const querySnapshot = await getDocs(collection(db, "users"));
+    /*const querySnapshot = await getDocs(collection(db, "users"));
     querySnapshot.forEach((doc) => {
       //setTimer(`${doc.id} => ${JSON.stringify(doc.data()["20220810"])}`);
       //setTimer(doc.data()['20220812']);
-      setTimer(doc.data()[nowFormat]);
       //console.log(`${doc.id} => ${doc.data()}`);
-    });
+    });*/
+    const docRef = doc(db, "users", "abc@naver.com");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      setT(JSON.stringify(docSnap));
+    } else {
+      // doc.data() will be undefined in this case
+      setT('empty');
+    }
   }
   useEffect(() => {
     getFirestoreTime();
@@ -103,14 +114,16 @@ const Timer = () => {
 
   const testFunction = async () => {
     await setDoc(doc(db, "users", "abc@naver.com"), {
-      20220812 : 2000,
-      20220801 : 1000
-    });
+      20220812 : 3000,
+      20220811 : 1000
+    }, { merge : true });
   }
 
   return (
     <Container>
       <Text>{formatTime()}</Text>
+      <Text>{t}</Text>
+      <Text>{doc.data()["20220811"]}</Text>
       <Button title="test" onPress={testFunction}></Button>
       {/*<Button title="Start/Stop" onPress={handleStart}></Button>
       <Button title="Stop" onPress={handleReset}></Button>*/}
