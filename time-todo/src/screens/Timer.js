@@ -46,8 +46,6 @@ const Timer = () => {
   const [isActive, setIsActive] = useState(false);
   const increment = useRef(null);
 
-  const [t, setT] = useState();
-
   //오늘 날짜 설정
   const now = new Date();
   const nowMonth = (now.getMonth()+1) < 10 ? '0'+(now.getMonth()+1).toString() : (now.getMonth()+1).toString();
@@ -57,21 +55,12 @@ const Timer = () => {
   const db = getFirestore(app);
 
   const getFirestoreTime = async () => {
-    /*const querySnapshot = await getDocs(collection(db, "users"));
+    const querySnapshot = await getDocs(collection(db, "users"));
     querySnapshot.forEach((doc) => {
       //setTimer(`${doc.id} => ${JSON.stringify(doc.data()["20220810"])}`);
-      //setTimer(doc.data()['20220812']);
+      setTimer(doc.data()['20220812']);
       //console.log(`${doc.id} => ${doc.data()}`);
-    });*/
-    const docRef = doc(db, "users", "abc@naver.com");
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      setT(JSON.stringify(docSnap));
-    } else {
-      // doc.data() will be undefined in this case
-      setT('empty');
-    }
+    });
   }
   useEffect(() => {
     getFirestoreTime();
@@ -122,8 +111,6 @@ const Timer = () => {
   return (
     <Container>
       <Text>{formatTime()}</Text>
-      <Text>{t}</Text>
-      <Text>{doc.data()["20220811"]}</Text>
       <Button title="test" onPress={testFunction}></Button>
       {/*<Button title="Start/Stop" onPress={handleStart}></Button>
       <Button title="Stop" onPress={handleReset}></Button>*/}
