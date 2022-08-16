@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Button } from '../components';
 import { BackHandler, Alert } from "react-native";
 import styled from 'styled-components/native';
-import { app } from '../utils/firebase';
+import { getCurrentUser, app } from '../utils/firebase';
 import {
   getFirestore,
   collection,
@@ -11,7 +11,9 @@ import {
   doc,
   getDocs,
   setDoc,
-  getDoc
+  getDoc,
+  where,
+  getDocFromCache
 } from 'firebase/firestore';
 
 const Container = styled.View`
@@ -46,11 +48,17 @@ const Timer = () => {
   const [isActive, setIsActive] = useState(false);
   const increment = useRef(null);
 
+  const [t, setT] = useState();
+
   //오늘 날짜 설정
   const now = new Date();
   const nowMonth = (now.getMonth()+1) < 10 ? '0'+(now.getMonth()+1).toString() : (now.getMonth()+1).toString();
   const nowDay = (now.getDate) < 10 ? '0'+(now.getDate()).toString() : (now.getDate()).toString();
   const nowFormat = now.getFullYear().toString() + nowMonth + nowDay;
+
+  //현재 접속한 유저 정보
+  const user = getCurrentUser();
+  const userEmail = user.email;
 
   const db = getFirestore(app);
 
@@ -59,6 +67,8 @@ const Timer = () => {
     querySnapshot.forEach((doc) => {
       //setTimer(`${doc.id} => ${JSON.stringify(doc.data()["20220810"])}`);
       setTimer(doc.data()['20220812']);
+      setT(doc.id);
+      //setTimer(doc.data()[nowFormat]);
       //console.log(`${doc.id} => ${doc.data()}`);
     });
   }
@@ -79,11 +89,44 @@ const Timer = () => {
     }
   }
 
+  //타이머 초기화용
   const handleReset = () => {
     clearInterval(increment.current)
     setIsActive(false)
     setTimer(0)
   }
+
+  //
+  const tmpFunc = async () => {
+    /*const docRef = doc(db, "users", "abc@naver.com");
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setT(docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+      setT("No such document!");
+    }*/
+
+    const q = await getDocs(collection(db, "users", "abc@naver.com"));
+    
+    setT(JSON.stringify(q));
+
+    /*
+    const docRef = doc(db, "users");
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      console.log("Document data:", docSnap.data());
+      setT(docSnap.data());
+    } else {
+      // doc.data() will be undefined in this case
+      console.log("No such document!");
+      setT(docSnap.data());
+    }*/
+  }
+  //
 
   const formatTime = () => {
     const getSeconds = `0${(timer % 60)}`.slice(-2)
@@ -112,6 +155,8 @@ const Timer = () => {
     <Container>
       <Text>{formatTime()}</Text>
       <Button title="test" onPress={testFunction}></Button>
+      <Text>{t}</Text>
+      <Button title="tmpBtn" onPress={tmpFunc}></Button>
       {/*<Button title="Start/Stop" onPress={handleStart}></Button>
       <Button title="Stop" onPress={handleReset}></Button>*/}
       {/*

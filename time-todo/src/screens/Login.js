@@ -6,6 +6,16 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { signin } from '../utils/firebase';
+//
+import { app } from '../utils/firebase';
+import {
+  getFirestore,
+  collection,
+  onSnapshot,
+  query,
+  orderBy,
+} from 'firebase/firestore';
+//
 
 const Container = styled.View`
   flex: 1;
@@ -35,6 +45,10 @@ const Login = ({ navigation }) => {
   const passwordRef = useRef();
   const [errorMessage, setErrorMessage] = useState('');
   const [disabled, setDisabled] = useState(true);
+
+  //
+  const [t, setT] = useState();
+  //
 
   useEffect(() => {
     setDisabled(!(email && password && !errorMessage));
@@ -66,6 +80,17 @@ const Login = ({ navigation }) => {
       spinner.stop();
     }
   };
+
+
+  //
+  const db = getFirestore(app);
+
+  const testFunc = async () => {
+    const q = DB.collection('users').doc('abc@naver.com');
+    
+    setT(JSON.stringify(q));
+  }
+  //
   
   return (
     <KeyboardAwareScrollView
@@ -73,9 +98,16 @@ const Login = ({ navigation }) => {
       extraScrollHeight={20}
     >
     <Container insets={insets}>
+      <Button
+        title="test"
+        onPress={testFunc}
+      />
       <Input
           label="Email"
-          value={email}
+          //value={email}
+          
+          value={t}
+
           onChangeText={_handleEmailChange}
           onSubmitEditing={() => passwordRef.current.focus()}
           placeholder="Email"
