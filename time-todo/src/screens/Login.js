@@ -13,7 +13,12 @@ import {
   collection,
   onSnapshot,
   query,
-  orderBy,
+  doc,
+  getDocs,
+  setDoc,
+  getDoc,
+  where,
+  getDocFromCache
 } from 'firebase/firestore';
 //
 
@@ -86,9 +91,8 @@ const Login = ({ navigation }) => {
   const db = getFirestore(app);
 
   const testFunc = async () => {
-    const q = DB.collection('users').doc('abc@naver.com');
-    
-    setT(JSON.stringify(q));
+    const userRef = doc(db, "users", "abc@naver.com");
+    const userSnap = await getDoc(userRef);
   }
   //
   

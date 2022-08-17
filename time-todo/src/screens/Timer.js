@@ -62,19 +62,18 @@ const Timer = () => {
 
   const db = getFirestore(app);
 
+  //마운트시 데이터베이스에서 오늘자 공부시간 불러오기
   const getFirestoreTime = async () => {
-    const querySnapshot = await getDocs(collection(db, "users"));
-    querySnapshot.forEach((doc) => {
-      //setTimer(`${doc.id} => ${JSON.stringify(doc.data()["20220810"])}`);
-      setTimer(doc.data()['20220812']);
-      setT(doc.id);
-      //setTimer(doc.data()[nowFormat]);
-      //console.log(`${doc.id} => ${doc.data()}`);
-    });
-  }
-  useEffect(() => {
-    getFirestoreTime();
-  }, []);
+    const userRef = doc(db, "users", userEmail);
+    const userSnap = await getDoc(userRef);
+    if(userSnap.data()[nowFormat] === undefined){
+      setTimer(0);
+      setT(0);
+    } else {
+      setTimer(userSnap.data()[nowFormat]);
+      setT(userSnap.data()[nowFormat]);
+    }
+  }  
 
   //useInterval이 좋다?
   const handleStart = () => {
@@ -109,12 +108,7 @@ const Timer = () => {
       console.log("No such document!");
       setT("No such document!");
     }*/
-
-    const q = await getDocs(collection(db, "users", "abc@naver.com"));
-    
-    setT(JSON.stringify(q));
-
-    /*
+        
     const docRef = doc(db, "users");
     const docSnap = await getDoc(docRef);
     if (docSnap.exists()) {
@@ -124,7 +118,7 @@ const Timer = () => {
       // doc.data() will be undefined in this case
       console.log("No such document!");
       setT(docSnap.data());
-    }*/
+    }
   }
   //
 
@@ -136,25 +130,26 @@ const Timer = () => {
 
     return `${getHours}:${getMinutes}.${getSeconds}`
   }
-  //마운트시 시,분,초 값 가져와서 표출 및 카운트 시작
 
+  //언마운트시 공부한 시간 저장
+  const saveTime = async () => {
+    await setDoc(doc(db, "users", userEmail), {
+      [nowFormat] : timer
+    }, { merge : true });
+  };
   useEffect(() => {
     handleStart();
+    getFirestoreTime();
 
-    return () => handleStart();
+    return () => {
+      handleStart();
+    }
   }, []);
-
-  const testFunction = async () => {
-    await setDoc(doc(db, "users", "abc@naver.com"), {
-      20220812 : 3000,
-      20220811 : 1000
-    }, { merge : true });
-  }
 
   return (
     <Container>
       <Text>{formatTime()}</Text>
-      <Button title="test" onPress={testFunction}></Button>
+      <Button title="test" onPress={saveTime}></Button>
       <Text>{t}</Text>
       <Button title="tmpBtn" onPress={tmpFunc}></Button>
       {/*<Button title="Start/Stop" onPress={handleStart}></Button>
