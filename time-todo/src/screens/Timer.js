@@ -43,7 +43,7 @@ const styles = StyleSheet.create({
   }
 })*/
 
-const Timer = () => {
+const Timer = ({ navigation }) => {
   const [timer, setTimer] = useState();
   const [isActive, setIsActive] = useState(false);
   const increment = useRef(null);
@@ -95,33 +95,6 @@ const Timer = () => {
     setTimer(0)
   }
 
-  //
-  const tmpFunc = async () => {
-    /*const docRef = doc(db, "users", "abc@naver.com");
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      setT(docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-      setT("No such document!");
-    }*/
-        
-    const docRef = doc(db, "users");
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      console.log("Document data:", docSnap.data());
-      setT(docSnap.data());
-    } else {
-      // doc.data() will be undefined in this case
-      console.log("No such document!");
-      setT(docSnap.data());
-    }
-  }
-  //
-
   const formatTime = () => {
     const getSeconds = `0${(timer % 60)}`.slice(-2)
     const minutes = `${Math.floor(timer / 60)}`
@@ -136,7 +109,9 @@ const Timer = () => {
     await setDoc(doc(db, "users", userEmail), {
       [nowFormat] : timer
     }, { merge : true });
+    navigation.goBack();
   };
+
   useEffect(() => {
     handleStart();
     getFirestoreTime();
@@ -149,9 +124,7 @@ const Timer = () => {
   return (
     <Container>
       <Text>{formatTime()}</Text>
-      <Button title="test" onPress={saveTime}></Button>
-      <Text>{t}</Text>
-      <Button title="tmpBtn" onPress={tmpFunc}></Button>
+      <Button title="종료" onPress={() => saveTime()}></Button>
       {/*<Button title="Start/Stop" onPress={handleStart}></Button>
       <Button title="Stop" onPress={handleReset}></Button>*/}
       {/*

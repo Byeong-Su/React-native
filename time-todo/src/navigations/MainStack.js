@@ -23,7 +23,7 @@ const MainStack = () => {
       />
       <Stack.Screen name="Timer" component={Timer}
         //헤더 렌더링x
-        options={{ headerShown: true }}
+        options={{ headerShown: false }}
       />
     </Stack.Navigator>
   );
