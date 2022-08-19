@@ -3,18 +3,7 @@ import { Button } from '../components';
 import { BackHandler, Alert } from "react-native";
 import styled from 'styled-components/native';
 import { getCurrentUser, app } from '../utils/firebase';
-import {
-  getFirestore,
-  collection,
-  onSnapshot,
-  query,
-  doc,
-  getDocs,
-  setDoc,
-  getDoc,
-  where,
-  getDocFromCache
-} from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 const Container = styled.View`
   flex: 1;
@@ -48,13 +37,11 @@ const Timer = ({ navigation }) => {
   const [isActive, setIsActive] = useState(false);
   const increment = useRef(null);
 
-  const [t, setT] = useState();
-
   //오늘 날짜 설정
   const now = new Date();
   const nowMonth = (now.getMonth()+1) < 10 ? '0'+(now.getMonth()+1).toString() : (now.getMonth()+1).toString();
   const nowDay = (now.getDate) < 10 ? '0'+(now.getDate()).toString() : (now.getDate()).toString();
-  const nowFormat = now.getFullYear().toString() + nowMonth + nowDay;
+  const nowFormat = now.getFullYear().toString() + '-' + nowMonth + '-' + nowDay;
 
   //현재 접속한 유저 정보
   const user = getCurrentUser();
@@ -68,12 +55,10 @@ const Timer = ({ navigation }) => {
     const userSnap = await getDoc(userRef);
     if(userSnap.data()[nowFormat] === undefined){
       setTimer(0);
-      setT(0);
     } else {
       setTimer(userSnap.data()[nowFormat]);
-      setT(userSnap.data()[nowFormat]);
     }
-  }  
+  }
 
   //useInterval이 좋다?
   const handleStart = () => {
@@ -104,7 +89,7 @@ const Timer = ({ navigation }) => {
     return `${getHours}:${getMinutes}.${getSeconds}`
   }
 
-  //언마운트시 공부한 시간 저장
+  //공부한 시간 저장 및 뒤로가기
   const saveTime = async () => {
     await setDoc(doc(db, "users", userEmail), {
       [nowFormat] : timer

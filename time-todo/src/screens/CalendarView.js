@@ -1,8 +1,11 @@
-import React, {useState} from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { Calendar } from "react-native-calendars";
 import { StyleSheet, Text } from "react-native";
 import Modal from "react-native-modal";
+
+import { getCurrentUser, app } from '../utils/firebase';
+import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
 
 const Container = styled.View`
   flex: 1;
@@ -72,11 +75,62 @@ const StyledModalOutputText = styled.Text`
 `;
 
 const CalendarView = () => {
-  const [myText, setmyText] = useState("");
   //State를 이용하여 Modal을 제어함
   const [modalVisible, setModalVisible] = useState(false);
   //Output을 State로 받아서 화면에 표출하거나 정보 값으로 활용
   const [modalOutput, setModalOutput] = useState();
+
+  const [t,setT] = useState();
+
+  //현재 접속한 유저 정보
+  const user = getCurrentUser();
+  const userEmail = user.email;
+
+  const db = getFirestore(app);
+
+  //마운트시 데이터베이스에서 오늘자 공부시간 불러오기
+  const getFirestoreTime = async () => {
+    const userRef = doc(db, "users", userEmail);
+    const userSnap = await getDoc(userRef);
+    //setT(JSON.stringify(userSnap.data()));
+    //setT(Object.getOwnPropertyNames(userSnap.data()));
+
+    const list = [];
+    Object.getOwnPropertyNames(userSnap.data()).forEach(
+      function (val, idx, array) {
+        setT(val + ' -> ' + userSnap.data()[val]);
+      }
+    );
+    
+
+
+    //
+    // var jsonData = [
+    //   { "id": 1, "name": "Hotels" },
+    //   { "id": 2, "name": "Embassies" }
+    // ];
+  
+    // var data = jsonData.map(function(item) {
+    //   return {
+    //     key: item.id,
+    //     label: item.name
+    //   };
+    // });
+    
+    //setT(JSON.stringify(data));
+    //
+
+    
+    // if(userSnap.data()['2022-08-18'] === undefined){
+    //   setT(0);
+    // } else {
+    //   setT(userSnap.data()['2022-08-18']);
+    // }
+  }
+
+  useEffect(() => {
+    getFirestoreTime();
+  }, []);
 
   return (
     <Container>
@@ -118,6 +172,8 @@ const CalendarView = () => {
       />
       { modalVisible && <Text>{modalOutput}</Text> }
       
+      <Text>{t}</Text>
+
       <Modal
         //isVisible Props에 State 값을 물려주어 On/off control
         isVisible={modalVisible}
