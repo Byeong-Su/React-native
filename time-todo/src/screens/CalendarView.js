@@ -95,10 +95,12 @@ const CalendarView = () => {
     //setT(JSON.stringify(userSnap.data()));
     //setT(Object.getOwnPropertyNames(userSnap.data()));
 
-    const list = [];
+    var dateKeys = [];
+    var timeVlaues = [];
     Object.getOwnPropertyNames(userSnap.data()).forEach(
       function (val, idx, array) {
-        setT(val + ' -> ' + userSnap.data()[val]);
+        dateKeys[idx] = val;
+        timeVlaues[idx] = userSnap.data()[val];
       }
     );
     
