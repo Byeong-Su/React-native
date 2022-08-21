@@ -160,7 +160,6 @@ const CalendarView = () => {
         }}
 
         onDayPress={day => {
-          console.log('selected day', day);
           //JSON to String
           //setModalOutput(JSON.stringify(day));
           //JSON to Key and Value          
