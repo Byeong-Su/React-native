@@ -166,8 +166,8 @@ const CalendarView = () => {
           //setModalOutput(day.year);
           //setModalOutput(day.month);
           //setModalOutput(day.day);
-          setModalOutput(day.timestamp);
-          //setModalOutput(day.dateString);
+          //setModalOutput(day.timestamp);
+          setModalOutput(day.dateString);
           setModalVisible(true);
         }}
       />
