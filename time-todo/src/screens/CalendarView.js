@@ -3,9 +3,8 @@ import styled from 'styled-components/native';
 import { Calendar } from "react-native-calendars";
 import { StyleSheet, Text } from "react-native";
 import Modal from "react-native-modal";
-
 import { getCurrentUser, app } from '../utils/firebase';
-import { getFirestore, doc, setDoc, getDoc } from 'firebase/firestore';
+import { getFirestore, doc, setDoc, getDoc, waitForPendingWrites } from 'firebase/firestore';
 
 const Container = styled.View`
   flex: 1;
@@ -79,6 +78,7 @@ const CalendarView = () => {
   const [modalVisible, setModalVisible] = useState(false);
   //Output을 State로 받아서 화면에 표출하거나 정보 값으로 활용
   const [modalOutput, setModalOutput] = useState();
+  const [clickDayTime, setClickDayTime] = useState();
 
   const [t,setT] = useState();
 
@@ -102,16 +102,11 @@ const CalendarView = () => {
         dateKeys[idx] = val;
         timeVlaues[idx] = userSnap.data()[val];
       }
-    );
-    
-
-
-    //
+    ); 
     // var jsonData = [
     //   { "id": 1, "name": "Hotels" },
     //   { "id": 2, "name": "Embassies" }
     // ];
-  
     // var data = jsonData.map(function(item) {
     //   return {
     //     key: item.id,
@@ -120,19 +115,38 @@ const CalendarView = () => {
     // });
     
     //setT(JSON.stringify(data));
-    //
 
-    
     // if(userSnap.data()['2022-08-18'] === undefined){
     //   setT(0);
     // } else {
     //   setT(userSnap.data()['2022-08-18']);
     // }
-  }
+  };
+
+  const getDayTime = async (dateFormat) => {
+    const userRef = doc(db, "users", userEmail);
+    const userSnap = await getDoc(userRef);
+    if(userSnap.data()[dateFormat] === undefined){
+      setClickDayTime(0);
+    } else {
+      setClickDayTime(userSnap.data()[dateFormat]);
+    }
+  };
 
   useEffect(() => {
     getFirestoreTime();
   }, []);
+
+  const dada = '2022-08-02';
+  const [markedDates, setMarkedDates] = useState({
+    '2022-08-20': {textColor: 'green'},
+    '2022-08-22': {startingDay: true, color: 'green'},
+    '2022-08-23': {selected: true, endingDay: true, color: 'green', textColor: 'gray'},
+    '2022-08-04': {disabled: true, startingDay: true, color: 'green', endingDay: true},
+    dada: {disabled: true, startingDay: true, color: 'green', endingDay: true}
+  })
+  //test해볼것
+  //https://maaani.tistory.com/158
 
   return (
     <Container>
@@ -140,7 +154,8 @@ const CalendarView = () => {
         //사용자의 시간 데이터를 받아서
         //시간에 따라 마킹 진하기 다르게
         markingType={'period'}
-        markedDates={{
+        markedDates={markedDates}
+        /*markedDates={{
           '2022-07-15': {marked: true, dotColor: '#50cebb'},
           '2022-07-16': {marked: true, dotColor: '#50cebb'},
           '2022-07-21': {startingDay: true, color: '#50cebb', textColor: 'white'},
@@ -148,7 +163,7 @@ const CalendarView = () => {
           '2022-07-23': {color: '#70d7c7', textColor: 'white', marked: true, dotColor: 'white'},
           '2022-07-24': {color: '#70d7c7', textColor: 'white'},
           '2022-07-25': {endingDay: true, color: '#50cebb', textColor: 'white'}
-        }}
+        }}*/
 
         style={styles.calendar}
         theme={{
@@ -167,8 +182,15 @@ const CalendarView = () => {
           //setModalOutput(day.month);
           //setModalOutput(day.day);
           //setModalOutput(day.timestamp);
+          //오늘 날짜 설정
+          const nowMonth = (day.month) < 10 ? '0'+(day.month.toString()) : (day.month.toString());
+          const nowDay = (day.day) < 10 ? '0'+(day.day.toString()) : (day.day.toString());
+          getDayTime(day.year.toString() + '-' + nowMonth + '-' + nowDay);
+          
           setModalOutput(day.dateString);
           setModalVisible(true);
+          
+          
         }}
       />
       { modalVisible && <Text>{modalOutput}</Text> }
@@ -229,7 +251,7 @@ const CalendarView = () => {
               setModalVisible(false);
             }}
           >
-            <StyledModalText>선택 4</StyledModalText>
+            <StyledModalText>{clickDayTime}</StyledModalText>
           </StyledModalButton>
 
           <HorizentalLine />
