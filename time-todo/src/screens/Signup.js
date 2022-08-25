@@ -5,8 +5,9 @@ import { Image, Input, Button } from '../components';
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { images } from '../utils/images';
-import { Alert } from 'react-native';
-import { signup } from '../utils/firebase';
+import { Alert, View } from 'react-native';
+import { signup, getCurrentUser, app } from '../utils/firebase';
+import { getFirestore, doc, setDoc, getDoc, waitForPendingWrites } from 'firebase/firestore';
 
 const Container = styled.View`
   flex: 1;
@@ -68,11 +69,16 @@ const Signup = () => {
     );
   }, [name, email, password, passwordConfirm, errorMessage]);
 
+
   const _handleSignupButtonPress = async () => {
     try {
       //login 함수를 호출하기 전에 Spinner 컴포넌트 렌더링
       spinner.start();
       const user = await signup({ email, password, name, photoUrl });
+      
+      //sign up한 정보로 firestore에 문서 추가
+      await setDoc(doc(db, "users", "aaa@naver.com"), {});
+
       //로그인 성공하면 UserContext의 dispatch 함수를 이용해 user 상태가 인증된 사용자의 정보로 변경
       dispatch(user);
     } catch (e) {
@@ -82,8 +88,18 @@ const Signup = () => {
       spinner.stop();
     }
   };
+
+  const db = getFirestore(app);
+
+  const addEmailDoc = async () => {
+    //sign up한 정보로 firestore에 문서 추가
+    await setDoc(doc(db, "users", "aaa@naver.com"), {});
+  }
+
+  
+
   return (
-    <KeyboardAwareScrollView extraScrollHeight={20}>
+    <KeyboardAwareScrollView contentContainerStyle={{ flex: 1 }} extraScrollHeight={20}>
       <Container>
         <Image
           rounded

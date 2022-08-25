@@ -126,7 +126,7 @@ const CalendarView = () => {
   const getDayTime = async (dateFormat) => {
     const userRef = doc(db, "users", userEmail);
     const userSnap = await getDoc(userRef);
-    //undifined 블로그 기록
+    //undifined 블로그 기록 
     if(userSnap.data()[dateFormat] === undefined){
       setClickDayTime(0);
     } else {
