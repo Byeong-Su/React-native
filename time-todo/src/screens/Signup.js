@@ -77,7 +77,7 @@ const Signup = () => {
       const user = await signup({ email, password, name, photoUrl });
       
       //sign up한 정보로 firestore에 문서 추가
-      await setDoc(doc(db, "users", "aaa@naver.com"), {});
+      await setDoc(doc(db, "users", email), {});
 
       //로그인 성공하면 UserContext의 dispatch 함수를 이용해 user 상태가 인증된 사용자의 정보로 변경
       dispatch(user);
