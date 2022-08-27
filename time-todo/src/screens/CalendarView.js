@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components/native';
 import { Calendar } from "react-native-calendars";
-import { StyleSheet, Text } from "react-native";
+import { Alert, StyleSheet, Text } from "react-native";
 import Modal from "react-native-modal";
 import { getCurrentUser, app } from '../utils/firebase';
 import { getFirestore, doc, setDoc, getDoc, waitForPendingWrites } from 'firebase/firestore';
@@ -51,7 +51,6 @@ const StyledModalText = styled.Text`
   font-size: 15px;
 `;
 
-//React Native 요소 중에서 CSS에서 hr 태그 같은 요소를 몰라서 View로 구현... 더 좋은 방법이 있다면 알려주세요
 const HorizentalLine = styled.View`
   background-color: black;
   height: 1px;
@@ -87,6 +86,28 @@ const CalendarView = () => {
   const userEmail = user.email;
 
   const db = getFirestore(app);
+  let dateKeys = [];
+  let timeVlaues = [];
+
+  //
+  let nextDays = [
+    '2022-08-01',
+    '2022-08-05',
+    '2022-08-08',
+    '2022-08-07',
+    '2022-08-18'
+  ];
+   
+  let newDaysObject = {};
+
+  nextDays.forEach((day) => {
+    newDaysObject[day] = {
+        selected: true,
+        marked: true
+    };
+  });
+  //https://github.com/wix/react-native-calendars/issues/160
+  //
 
   //마운트시 데이터베이스에서 오늘자 공부시간 불러오기
   const getFirestoreTime = async () => {
@@ -95,14 +116,13 @@ const CalendarView = () => {
     //setT(JSON.stringify(userSnap.data()));
     //setT(Object.getOwnPropertyNames(userSnap.data()));
 
-    var dateKeys = [];
-    var timeVlaues = [];
+    
     Object.getOwnPropertyNames(userSnap.data()).forEach(
       function (val, idx, array) {
         dateKeys[idx] = val;
         timeVlaues[idx] = userSnap.data()[val];
       }
-    ); 
+    );
     // var jsonData = [
     //   { "id": 1, "name": "Hotels" },
     //   { "id": 2, "name": "Embassies" }
@@ -138,24 +158,15 @@ const CalendarView = () => {
     getFirestoreTime();
   }, []);
 
-  const dada = '2022-08-02';
-  const [markedDates, setMarkedDates] = useState({
-    '2022-08-20': {textColor: 'green'},
-    '2022-08-22': {startingDay: true, color: 'green'},
-    '2022-08-23': {selected: true, endingDay: true, color: 'green', textColor: 'gray'},
-    '2022-08-04': {disabled: true, startingDay: true, color: 'green', endingDay: true},
-    dada: {disabled: true, startingDay: true, color: 'green', endingDay: true}
-  })
-  //test해볼것
-  //https://maaani.tistory.com/158
-
+  
+  
   return (
     <Container>
       <Calendar
         //사용자의 시간 데이터를 받아서
         //시간에 따라 마킹 진하기 다르게
         markingType={'period'}
-        markedDates={markedDates}
+        markedDates={newDaysObject}
         /*markedDates={{
           '2022-07-15': {marked: true, dotColor: '#50cebb'},
           '2022-07-16': {marked: true, dotColor: '#50cebb'},
@@ -189,8 +200,7 @@ const CalendarView = () => {
           getDayTime(day.year.toString() + '-' + nowMonth + '-' + nowDay);
           
           setModalOutput(day.dateString);
-          setModalVisible(true);
-          
+          setModalVisible(true);     
           
         }}
       />

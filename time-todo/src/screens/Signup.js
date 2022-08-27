@@ -69,6 +69,7 @@ const Signup = () => {
     );
   }, [name, email, password, passwordConfirm, errorMessage]);
 
+  const db = getFirestore(app);
 
   const _handleSignupButtonPress = async () => {
     try {
@@ -88,13 +89,6 @@ const Signup = () => {
       spinner.stop();
     }
   };
-
-  const db = getFirestore(app);
-
-  const addEmailDoc = async () => {
-    //sign up한 정보로 firestore에 문서 추가
-    await setDoc(doc(db, "users", "aaa@naver.com"), {});
-  }
 
   
 
