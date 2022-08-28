@@ -100,6 +100,7 @@ const CalendarView = () => {
    
   let newDaysObject = {};
 
+  //dateKeys.foreach...
   nextDays.forEach((day) => {
     newDaysObject[day] = {
         selected: true,
