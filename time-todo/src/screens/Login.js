@@ -6,21 +6,6 @@ import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view
 import { validateEmail, removeWhitespace } from '../utils/common';
 import { useSafeAreaInsets } from 'react-native-safe-area-context';
 import { signin } from '../utils/firebase';
-//
-import { app } from '../utils/firebase';
-import {
-  getFirestore,
-  collection,
-  onSnapshot,
-  query,
-  doc,
-  getDocs,
-  setDoc,
-  getDoc,
-  where,
-  getDocFromCache
-} from 'firebase/firestore';
-//
 
 const Container = styled.View`
   flex: 1;
@@ -85,16 +70,6 @@ const Login = ({ navigation }) => {
       spinner.stop();
     }
   };
-
-
-  //
-  const db = getFirestore(app);
-
-  const testFunc = async () => {
-    const userRef = doc(db, "users", "abc@naver.com");
-    const userSnap = await getDoc(userRef);
-  }
-  //
   
   return (
     <KeyboardAwareScrollView
@@ -102,10 +77,6 @@ const Login = ({ navigation }) => {
       extraScrollHeight={20}
     >
     <Container insets={insets}>
-      <Button
-        title="test"
-        onPress={testFunc}
-      />
       <Input
           label="Email"
           //value={email}
