@@ -105,10 +105,13 @@ const CalendarView = () => {
     newDaysObject[day] = {
         selected: true,
         marked: true
-    };
+    };   
   });
   //https://github.com/wix/react-native-calendars/issues/160
   //
+
+  //Login screen에서 로그인 버튼클릭시 데이터베이스에서 날짜데이터 받아오고
+  //props로 날짜데이터 Login에서 받아오기
 
   //마운트시 데이터베이스에서 오늘자 공부시간 불러오기
   const getFirestoreTime = async () => {
@@ -124,6 +127,7 @@ const CalendarView = () => {
         timeVlaues[idx] = userSnap.data()[val];
       }
     );
+
     // var jsonData = [
     //   { "id": 1, "name": "Hotels" },
     //   { "id": 2, "name": "Embassies" }
@@ -156,7 +160,7 @@ const CalendarView = () => {
   };
 
   useEffect(() => {
-    getFirestoreTime();
+    //getFirestoreTime();
   }, []);
 
   

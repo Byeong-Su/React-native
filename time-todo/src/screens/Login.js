@@ -36,10 +36,6 @@ const Login = ({ navigation }) => {
   const [errorMessage, setErrorMessage] = useState('');
   const [disabled, setDisabled] = useState(true);
 
-  //
-  const [t, setT] = useState();
-  //
-
   useEffect(() => {
     setDisabled(!(email && password && !errorMessage));
   }, [email, password, errorMessage]);
@@ -79,10 +75,7 @@ const Login = ({ navigation }) => {
     <Container insets={insets}>
       <Input
           label="Email"
-          //value={email}
-          
-          value={t}
-
+          value={email}
           onChangeText={_handleEmailChange}
           onSubmitEditing={() => passwordRef.current.focus()}
           placeholder="Email"
