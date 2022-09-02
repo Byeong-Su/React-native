@@ -163,7 +163,6 @@ const CalendarView = () => {
   useEffect(() => {
     //getFirestoreTime();
   }, []);
-
   
   
   return (
@@ -173,6 +172,7 @@ const CalendarView = () => {
         //시간에 따라 마킹 진하기 다르게
         markingType={'period'}
         markedDates={newDaysObject}
+        
         /*markedDates={{
           '2022-07-15': {marked: true, dotColor: '#50cebb'},
           '2022-07-16': {marked: true, dotColor: '#50cebb'},
