@@ -171,7 +171,7 @@ const CalendarView = () => {
         //사용자의 시간 데이터를 받아서
         //시간에 따라 마킹 진하기 다르게
         markingType={'period'}
-        markedDates={newDaysObject}
+        //markedDates={newDaysObject}
         
         /*markedDates={{
           '2022-07-15': {marked: true, dotColor: '#50cebb'},
