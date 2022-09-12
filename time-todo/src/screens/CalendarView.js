@@ -203,7 +203,7 @@ const CalendarView = () => {
           //오늘 날짜 설정
           const nowMonth = (day.month) < 10 ? '0'+(day.month.toString()) : (day.month.toString());
           const nowDay = (day.day) < 10 ? '0'+(day.day.toString()) : (day.day.toString());
-          getDayTime(day.year.toString() + '-' + nowMonth + '-' + nowDay);
+          setT(day.year.toString() + '-' + nowMonth + '-' + nowDay);
           
           setModalOutput(day.dateString);
           setModalVisible(true);     
@@ -214,6 +214,43 @@ const CalendarView = () => {
       
       <Text>{t}</Text>
 
+      <Modal
+        //isVisible Props에 State 값을 물려주어 On/off control
+        isVisible={modalVisible}
+        //아이폰에서 모달창 동작시 깜박임이 있었는데, useNativeDriver Props를 True로 주니 해결되었다.
+        useNativeDriver={true}
+        hideModalContentWhileAnimating={true}
+        style={{ flex: 1, justifyContent: "center", alignItems: "center" }}
+      >
+        <StyledModalContainer>
+          <StyledModalGradeWrapper>
+            <StyledModalGradeText>공부시간</StyledModalGradeText>
+          </StyledModalGradeWrapper>
+
+          <HorizentalLine />
+
+          <StyledModalButton
+            onPress={() => {
+              setModalOutput("선택 1");
+              setModalVisible(false);
+            }}
+          >
+            <StyledModalText>{t}</StyledModalText>
+          </StyledModalButton>
+
+          <HorizentalLine />
+
+          <StyledModalButton
+            onPress={() => {
+              setModalVisible(false);
+            }}
+          >
+            <Text style={{ alignSelf: "center" }}>취소</Text>
+          </StyledModalButton>
+          </StyledModalContainer>
+      </Modal>
+
+      {/*
       <Modal
         //isVisible Props에 State 값을 물려주어 On/off control
         isVisible={modalVisible}
@@ -282,6 +319,7 @@ const CalendarView = () => {
           </StyledModalButton>
           </StyledModalContainer>
       </Modal>
+      */}
     </Container>
   );
 };
