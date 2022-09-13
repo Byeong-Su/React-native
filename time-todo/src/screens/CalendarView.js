@@ -155,13 +155,16 @@ const CalendarView = () => {
     //undifined 블로그 기록 
     if(userSnap.data()[dateFormat] === undefined){
       setClickDayTime(0);
+      setT(0);
     } else {
       setClickDayTime(userSnap.data()[dateFormat]);
+      setT(userSnap.data()[dateFormat]);
     }
   };
 
   useEffect(() => {
     //getFirestoreTime();
+    getDayTime();
   }, []);
   
   
@@ -203,7 +206,7 @@ const CalendarView = () => {
           //오늘 날짜 설정
           const nowMonth = (day.month) < 10 ? '0'+(day.month.toString()) : (day.month.toString());
           const nowDay = (day.day) < 10 ? '0'+(day.day.toString()) : (day.day.toString());
-          setT(day.year.toString() + '-' + nowMonth + '-' + nowDay);
+          setClickDayTime(day.year.toString() + '-' + nowMonth + '-' + nowDay);
           
           setModalOutput(day.dateString);
           setModalVisible(true);     
