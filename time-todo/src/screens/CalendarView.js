@@ -234,7 +234,7 @@ const CalendarView = () => {
 
           <StyledModalButton
             onPress={() => {
-              setModalOutput("press");
+              setModalOutput("modal press");
               setModalVisible(false);
             }}
           >
