@@ -227,7 +227,7 @@ const CalendarView = () => {
       >
         <StyledModalContainer>
           <StyledModalGradeWrapper>
-            <StyledModalGradeText>타임</StyledModalGradeText>
+            <StyledModalGradeText>시간</StyledModalGradeText>
           </StyledModalGradeWrapper>
 
           <HorizentalLine />
