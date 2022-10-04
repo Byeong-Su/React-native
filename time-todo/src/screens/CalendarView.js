@@ -80,6 +80,7 @@ const CalendarView = () => {
   const [clickDayTime, setClickDayTime] = useState();
 
   const [t,setT] = useState();
+  const [testText, setTestText] = useState();
 
   //현재 접속한 유저 정보
   const user = getCurrentUser();
@@ -128,6 +129,8 @@ const CalendarView = () => {
         timeVlaues[idx] = userSnap.data()[val];
       }
     );
+
+    setTestText(userSnap.data());
 
     // var jsonData = [
     //   { "id": 1, "name": "Hotels" },
@@ -215,7 +218,7 @@ const CalendarView = () => {
       />
       { modalVisible && <Text>{modalOutput}</Text> }
       
-      <Text>{t}</Text>
+      <Text>{testText}</Text>
 
       <Modal
         //isVisible Props에 State 값을 물려주어 On/off control
